@@ -3,7 +3,7 @@ sudo: false
 before_install:
   - source <(curl -SLs https://raw.githubusercontent.com/c64lib/travis-ci/master/install.sh)
 script:
-  - cpm chipset https://github.com/c64lib/chipset/archive/0.0.1.tar.gz 
+  - cpm chipset https://github.com/c64lib/chipset/archive/0.0.2.tar.gz 
   - ka -libdir cpm_modules text.asm
 notifications:
   email:

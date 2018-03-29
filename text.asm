@@ -1,9 +1,25 @@
 #import "chipset/vic2.asm"
 #importonce
-.filenamespace text
+.filenamespace c64lib
 
 hexChars:
 	.text "0123456789abcdef"
+
+/*
+ * Text pointer ended with $FF and up to 255 characters.
+ */
+.macro @outText(textPointer, screenMemPointer, xPos, yPos, col) {
+	ldx #$00
+	lda textPointer, x
+loop:
+	sta [screenMemPointer + getTextOffset(xPos, yPos)], x
+	lda #col
+	sta [COLOR_RAM + getTextOffset(xPos, yPos)], x
+	inx
+	lda textPointer, x
+	cmp #$FF
+	bne loop
+}
 
 /*
  * Outputs one-byte value from given memory location ("bytePointer") at given location "xPos", "yPos" on 
@@ -11,13 +27,13 @@ hexChars:
  *
  * MOD: A, X, Y
  */
-.macro outByteHex(bytePointer, screenMemPointer, xPos, yPos, col) {
+.macro @outByteHex(bytePointer, screenMemPointer, xPos, yPos, col) {
 	ldx #$00
 	lda bytePointer
-	:outAHex([screenMemPointer + vic2.getTextOffset(xPos, yPos)])
+	:outAHex([screenMemPointer + getTextOffset(xPos, yPos)])
 	lda #col
-	sta [vic2.COLOR_RAM + vic2.getTextOffset(xPos, yPos)]
-	sta [vic2.COLOR_RAM + vic2.getTextOffset(xPos, yPos) + 1]
+	sta [COLOR_RAM + getTextOffset(xPos, yPos)]
+	sta [COLOR_RAM + getTextOffset(xPos, yPos) + 1]
 }
 
 /*
@@ -55,20 +71,4 @@ hexChars:
 		inx
 		rts
 	end:
-}
-
-/*
- * Text pointer ended with $FF and up to 255 characters.
- */
-.macro outText(textPointer, screenMemPointer, xPos, yPos, col) {
-	ldx #$00
-	lda textPointer, x
-loop:
-	sta [screenMemPointer + vic2.getTextOffset(xPos, yPos)], x
-	lda #col
-	sta [vic2.COLOR_RAM + vic2.getTextOffset(xPos, yPos)], x
-	inx
-	lda textPointer, x
-	cmp #$FF
-	bne loop
 }
