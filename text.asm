@@ -2,8 +2,8 @@
 #importonce
 .filenamespace c64lib
 
-hexChars:
-	.text "0123456789abcdef"
+//hexChars:
+//	.text "0123456789abcdef"
 
 /*
  * Text pointer ended with $FF and up to 255 characters.
@@ -27,10 +27,10 @@ loop:
  *
  * MOD: A, X, Y
  */
-.macro @outByteHex(bytePointer, screenMemPointer, xPos, yPos, col) {
+.macro @outByteHex(bytePointer, screenMemPointer, xPos, yPos, col, hexChars) {
 	ldx #$00
 	lda bytePointer
-	:outAHex([screenMemPointer + getTextOffset(xPos, yPos)])
+	outAHex([screenMemPointer + getTextOffset(xPos, yPos)], hexChars)
 	lda #col
 	sta [COLOR_RAM + getTextOffset(xPos, yPos)]
 	sta [COLOR_RAM + getTextOffset(xPos, yPos) + 1]
@@ -42,7 +42,7 @@ loop:
  * USE: A, X
  * MOD: A, X, Y
  */
-.macro outAHex(screenLocPointer) {
+.macro outAHex(screenLocPointer, hexChars) {
 		sta ldx1 + 1
 		clc
 		ror
