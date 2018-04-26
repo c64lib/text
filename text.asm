@@ -24,6 +24,8 @@ loop:
 /*
  * Outputs one-byte value from given memory location ("bytePointer") at given location "xPos", "yPos" on 
  * screen memory specified by "screenMemPointer" using color "col".
+ * hexChars should contain address of list of characters used to display number, 
+ * normally it should point to "0123456789abcdef".
  *
  * MOD: A, X, Y
  */
@@ -38,22 +40,24 @@ loop:
 
 /*
  * Outputs value stored in accumulator in hexadecimal form at given screen location ("screenLocPointer").
+ * hexChars should contain address of list of characters used to display number, 
+ * normally it should point to "0123456789abcdef".
  *
  * USE: A, X
  * MOD: A, X, Y
  */
 .macro outAHex(screenLocPointer, hexChars) {
-		sta ldx1 + 1
+		sta ldx1 + 1 // preserve for second digit
+    lsr          // shift right 4 bits
     lsr
     lsr
     lsr
-    lsr
-		sta ldx0 + 1
-		lda ldx1 + 1
-		and #%1111
-		sta ldx1 + 1
-		jsr ldx0
-		jsr ldx1
+		sta ldx0 + 1 // preserve for first digit
+		lda ldx1 + 1 // load second digit
+		and #%1111   // clear first digit
+		sta ldx1 + 1 // store it again
+		jsr ldx0     // display first digit
+		jsr ldx1     // display second digit
 		jmp end
 	ldx0:
 		ldy #$00
