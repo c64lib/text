@@ -3,22 +3,22 @@
 .filenamespace c64lib
 
 //hexChars:
-//	.text "0123456789abcdef"
+//  .text "0123456789abcdef"
 
 /*
  * Text pointer ended with $FF and up to 255 characters.
  */
 .macro @outText(textPointer, screenMemPointer, xPos, yPos, col) {
-	ldx #$00
-	lda textPointer, x
+  ldx #$00
+  lda textPointer, x
 loop:
-	sta [screenMemPointer + getTextOffset(xPos, yPos)], x
-	lda #col
-	sta [COLOR_RAM + getTextOffset(xPos, yPos)], x
-	inx
-	lda textPointer, x
-	cmp #$FF
-	bne loop
+  sta [screenMemPointer + getTextOffset(xPos, yPos)], x
+  lda #col
+  sta [COLOR_RAM + getTextOffset(xPos, yPos)], x
+  inx
+  lda textPointer, x
+  cmp #$FF
+  bne loop
 }
 
 /*
@@ -30,12 +30,12 @@ loop:
  * MOD: A, X, Y
  */
 .macro @outByteHex(bytePointer, screenMemPointer, xPos, yPos, col, hexChars) {
-	ldx #$00
-	lda bytePointer
-	outAHex([screenMemPointer + getTextOffset(xPos, yPos)], hexChars)
-	lda #col
-	sta [COLOR_RAM + getTextOffset(xPos, yPos)]
-	sta [COLOR_RAM + getTextOffset(xPos, yPos) + 1]
+  ldx #$00
+  lda bytePointer
+  outAHex([screenMemPointer + getTextOffset(xPos, yPos)], hexChars)
+  lda #col
+  sta [COLOR_RAM + getTextOffset(xPos, yPos)]
+  sta [COLOR_RAM + getTextOffset(xPos, yPos) + 1]
 }
 
 /*
@@ -47,28 +47,28 @@ loop:
  * MOD: A, X, Y
  */
 .macro outAHex(screenLocPointer, hexChars) {
-		sta ldx1 + 1 // preserve for second digit
+    sta ldx1 + 1 // preserve for second digit
     lsr          // shift right 4 bits
     lsr
     lsr
     lsr
-		sta ldx0 + 1 // preserve for first digit
-		lda ldx1 + 1 // load second digit
-		and #%1111   // clear first digit
-		sta ldx1 + 1 // store it again
-		jsr ldx0     // display first digit
-		jsr ldx1     // display second digit
-		jmp end
-	ldx0:
-		ldy #$00
-		jmp out
-	ldx1:
-		ldy #$00
-		jmp out
-	out:
-		lda hexChars, y
-		sta screenLocPointer, x
-		inx
-		rts
-	end:
+    sta ldx0 + 1 // preserve for first digit
+    lda ldx1 + 1 // load second digit
+    and #%1111   // clear first digit
+    sta ldx1 + 1 // store it again
+    jsr ldx0     // display first digit
+    jsr ldx1     // display second digit
+    jmp end
+  ldx0:
+    ldy #$00
+    jmp out
+  ldx1:
+    ldy #$00
+    jmp out
+  out:
+    lda hexChars, y
+    sta screenLocPointer, x
+    inx
+    rts
+  end:
 }
