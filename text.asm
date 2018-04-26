@@ -44,14 +44,10 @@ loop:
  */
 .macro outAHex(screenLocPointer, hexChars) {
 		sta ldx1 + 1
-		clc
-		ror
-		clc
-		ror
-		clc
-		ror
-		clc
-		ror
+    lsr
+    lsr
+    lsr
+    lsr
 		sta ldx0 + 1
 		lda ldx1 + 1
 		and #%1111
