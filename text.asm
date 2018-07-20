@@ -7,6 +7,7 @@
 
 /*
  * Text pointer ended with $FF and up to 255 characters.
+ * TODO (mmalecki) this shouldn't be implemented like this, it is waste of memory. It should be installable macro that can be then called with jsr
  */
 .macro @outText(textPointer, screenMemPointer, xPos, yPos, col) {
   ldx #$00
@@ -26,6 +27,8 @@ loop:
  * screen memory specified by "screenMemPointer" using color "col".
  * hexChars should contain address of list of characters used to display number, 
  * normally it should point to "0123456789abcdef".
+ *
+ * TODO (mmalecki) this shouldn't be implemented like this, it is waste of memory. It should be installable macro that can be then called with jsr
  *
  * MOD: A, X, Y
  */
