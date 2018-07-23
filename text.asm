@@ -1,9 +1,7 @@
+#import "common/invoke.asm"
 #import "chipset/vic2.asm"
 #importonce
 .filenamespace c64lib
-
-//hexChars:
-//  .text "0123456789abcdef"
 
 /*
  * Text pointer ended with $FF and up to 255 characters.
@@ -23,33 +21,22 @@ loop:
 }
 
 /*
- * Outputs one-byte value from given memory location ("bytePointer") at given location "xPos", "yPos" on 
- * screen memory specified by "screenMemPointer" using color "col".
- * hexChars should contain address of list of characters used to display number, 
- * normally it should point to "0123456789abcdef".
+ * Installs subroutine that prints hex representation of given byte on the screen.
  *
- * TODO (mmalecki) this shouldn't be implemented like this, it is waste of memory. It should be installable macro that can be then called with jsr
- *
- * MOD: A, X, Y
+ * Stack parameters (order of pushing):
+ *  bytePointerLo
+ *  bytePointerHi
+ *  screenLocationPointerLo
+ *  screenLocationPointerHi
  */
-.macro @outByteHex(bytePointer, screenMemPointer, xPos, yPos, col, hexChars) {
-  ldx #$00
-  lda bytePointer
-  outAHex([screenMemPointer + getTextOffset(xPos, yPos)], hexChars)
-  lda #col
-  sta [COLOR_RAM + getTextOffset(xPos, yPos)]
-  sta [COLOR_RAM + getTextOffset(xPos, yPos) + 1]
-}
-
-/*
- * Outputs value stored in accumulator in hexadecimal form at given screen location ("screenLocPointer").
- * hexChars should contain address of list of characters used to display number, 
- * normally it should point to "0123456789abcdef".
- *
- * USE: A, X
- * MOD: A, X, Y
- */
-.macro outAHex(screenLocPointer, hexChars) {
+.macro @outHex() {
+    invokeStackBegin(returnPtr)
+    pullWordParam(storeHex + 1)   // IN: screen location ptr
+    pullWordParam(loadByte + 1)   // IN: byte ptr
+    
+    loadByte: lda $ffff // load byte to process
+    
+    ldx #$00
     sta ldx1 + 1 // preserve for second digit
     lsr          // shift right 4 bits
     lsr
@@ -70,8 +57,13 @@ loop:
     jmp out
   out:
     lda hexChars, y
-    sta screenLocPointer, x
+    storeHex: sta $ffff, x
     inx
     rts
   end:
+    invokeStackEnd(returnPtr)
+    rts
+  // local variables
+  returnPtr:  .word 0
+  hexChars:   .text "0123456789abcdef"
 }
