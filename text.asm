@@ -4,20 +4,33 @@
 .filenamespace c64lib
 
 /*
- * Text pointer ended with $FF and up to 255 characters.
- * TODO (mmalecki) this shouldn't be implemented like this, it is waste of memory. It should be installable macro that can be then called with jsr
+ * Display text pointed by text pointer at screen (memory) location pointed by screen location pointer.
+ * Text must be ended with $FF and shall not be longer than 256 characters.
+ *
+ * Stack parameters (order of pushing)
+ *  text pointer LO
+ *  text pointer HI
+ *  screen location pointer LO
+ *  screen location pointer HI
  */
-.macro @outText(textPointer, screenMemPointer, xPos, yPos, col) {
+.macro @outText() {
+  invokeStackBegin(returnPtr)
+  pullWordParam(storeText + 1)
+  pullWordParam(loadText + 1)
+  
   ldx #$00
-  lda textPointer, x
 loop:
-  sta [screenMemPointer + getTextOffset(xPos, yPos)], x
-  lda #col
-  sta [COLOR_RAM + getTextOffset(xPos, yPos)], x
-  inx
-  lda textPointer, x
+  loadText: lda $FFFF, x
   cmp #$FF
+  beq end
+  storeText: sta $FFFF, x
+  inx
   bne loop
+end:
+  invokeStackEnd(returnPtr)
+  rts
+  // local variables
+  returnPtr: .word 0
 }
 
 /*
