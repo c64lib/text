@@ -15,8 +15,8 @@
  */
 .macro @outText() {
   invokeStackBegin(returnPtr)
-  pullWordParam(storeText + 1)
-  pullWordParam(loadText + 1)
+  pullParamW(storeText + 1)
+  pullParamW(loadText + 1)
   
   ldx #$00
 loop:
@@ -44,8 +44,8 @@ end:
  */
 .macro @outHex() {
     invokeStackBegin(returnPtr)
-    pullWordParam(storeHex + 1)   // IN: screen location ptr
-    pullWordParam(loadByte + 1)   // IN: byte ptr
+    pullParamW(storeHex + 1)   // IN: screen location ptr
+    pullParamW(loadByte + 1)   // IN: byte ptr
     
     loadByte: lda $ffff // load byte to process
     
