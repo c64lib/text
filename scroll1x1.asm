@@ -25,7 +25,7 @@ shiftText:
   ldaScreen: lda $ffff, x
   staScreen: sta $ffff, x
   inx
-  cmp #39
+  cpx #39
   bne shiftText
   // place next char
   ldaPtr: lda $ffff
