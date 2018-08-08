@@ -9,34 +9,46 @@
  * textAddress PTR
  * textPtr WORD
  */
-.macro @scroll1x1() {
+.macro @scroll1x1(tempZero1) {
+  .assert "tempZero1 must be a zero page address", tempZero1 <= 255, true
+
   invokeStackBegin(returnPtr)
-  pullParamW(ldaPtr + 1)
-  copyFast(ldaPtr + 1, staPtr + 1, 2)
-  pullParamW(ldaText + 1)
-  pullParamW(ldaScreen + 1)
-  copyFast(ldaScreen + 1, staScreen + 1, 2)
-  inc16(ldaScreen + 1)
-  copyFast(staScreen + 1, staLastChar + 1, 2)
-  add16(39, staLastChar + 1)
+  pullParamW(scrollPtr)
+  pullParamW(textPtr)
+  pullParamW(screenPtr)
   // shift text to left
-  ldx #$00
+  copyFast(screenPtr, tempZero1, 2)
+  ldy #$00
 shiftText:
-  ldaScreen: lda $ffff, x
-  staScreen: sta $ffff, x
-  inx
-  cpx #39
+  iny
+  lda (tempZero1), y
+  dey
+  sta (tempZero1), y
+  iny
+  cpy #39
   bne shiftText
   // place next char
-  ldaPtr: lda $ffff
+  copyFast(scrollPtr, tempZero1, 2)
+  ldy #$00
+  lda (tempZero1), y
   cmp #$ff
   bne placeChar
-  ldaText: lda $ffff
-  staPtr: sta $ffff
+  copyFast(textPtr, scrollPtr, 2)
+  copyFast(scrollPtr, tempZero1, 2)
+  lda (tempZero1), y
 placeChar:
-  staLastChar: sta $ffff
+  sta lastChar
+  add16(39, screenPtr)
+  copyFast(screenPtr, tempZero1, 2)
+  lda screenPtr
+  ldy #$00
+  sta (tempZero1), y
   invokeStackEnd(returnPtr)
   rts
   // local variables
   returnPtr: .word 0
+  scrollPtr: .word 0
+  textPtr:   .word 0
+  screenPtr: .word 0
+  lastChar:  .byte 0
 }
