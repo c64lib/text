@@ -11,11 +11,13 @@
  */
 .macro @scroll1x1(tempZero1) {
   .assert "tempZero1 must be a zero page address", tempZero1 <= 255, true
+  .print "tempZero1 installed at " + toHexString(tempZero1) + " and " + toHexString(tempZero1 + 1)
 
   invokeStackBegin(returnPtr)
   pullParamW(scrollPtr)
   pullParamW(textPtr)
   pullParamW(screenPtr)
+  
   // shift text to left
   copyFast(screenPtr, tempZero1, 2)
   ldy #$00
@@ -27,6 +29,7 @@ shiftText:
   iny
   cpy #39
   bne shiftText
+  
   // place next char
   copyFast(scrollPtr, tempZero1, 2)
   ldy #$00
@@ -40,15 +43,17 @@ placeChar:
   sta lastChar
   add16(39, screenPtr)
   copyFast(screenPtr, tempZero1, 2)
-  lda screenPtr
+  lda lastChar
   ldy #$00
   sta (tempZero1), y
+  add16(1, scrollPtr)
+  pushParamWInd(scrollPtr)
   invokeStackEnd(returnPtr)
   rts
   // local variables
-  returnPtr: .word 0
-  scrollPtr: .word 0
-  textPtr:   .word 0
-  screenPtr: .word 0
-  lastChar:  .byte 0
+  returnPtr: .word $ffff
+  scrollPtr: .word $ffff
+  textPtr:   .word $ffff
+  screenPtr: .word $ffff
+  lastChar:  .byte $ff
 }
