@@ -3,6 +3,12 @@
 #importonce
 .filenamespace c64lib
 
+.macro @incText(text, count) {
+  // thank you Alex Goldblat!
+  .fill text.size(), text.charAt(i) + count
+}
+.assert "incText", { incText("ab", 1)} , { .text "bc" }
+
 /*
  * Display text pointed by text pointer at screen (memory) location pointed by screen location pointer.
  * Text must be ended with $FF and shall not be longer than 256 characters.
