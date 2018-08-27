@@ -9,6 +9,8 @@
 }
 .assert "incText", { incText("ab", 1)} , { .text "bc" }
 
+// Hosted subroutines
+
 /*
  * Display text pointed by text pointer at screen (memory) location pointed by screen location pointer.
  * Text must be ended with $FF and shall not be longer than 256 characters.
@@ -19,7 +21,7 @@
  *  screen location pointer LO
  *  screen location pointer HI
  */
-.macro @outText() {
+.macro _outText() {
   invokeStackBegin(returnPtr)
   pullParamW(storeText + 1)
   pullParamW(loadText + 1)
@@ -48,7 +50,7 @@ end:
  *  screenLocationPointerLo
  *  screenLocationPointerHi
  */
-.macro @outHex() {
+.macro _outHex() {
     invokeStackBegin(returnPtr)
     pullParamW(storeHex + 1)   // IN: screen location ptr
     pullParamW(loadByte + 1)   // IN: byte ptr

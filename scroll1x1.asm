@@ -9,7 +9,7 @@
  * textAddress PTR
  * textPtr WORD
  */
-.macro @scroll1x1(tempZero1) {
+.macro _scroll1x1(tempZero1) {
   .assert "tempZero1 must be a zero page address", tempZero1 <= 255, true
   .print "tempZero1 installed at " + toHexString(tempZero1) + " and " + toHexString(tempZero1 + 1)
 
