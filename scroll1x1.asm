@@ -1,5 +1,5 @@
-#import "common/invoke.asm"
-#import "common/mem.asm"
+#import "common/lib/invoke.asm"
+#import "common/lib/mem.asm"
 #importonce
 .filenamespace c64lib
 

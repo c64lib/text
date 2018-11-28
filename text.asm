@@ -1,4 +1,4 @@
-#import "common/invoke.asm"
+#import "common/lib/invoke.asm"
 #import "chipset/vic2.asm"
 #importonce
 .filenamespace c64lib
