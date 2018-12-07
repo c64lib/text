@@ -6,6 +6,7 @@ script:
   - cpm common https://github.com/c64lib/common/archive/master.tar.gz
   - cpm chipset https://github.com/c64lib/chipset/archive/master.tar.gz 
   - kall lib
+  - kall lib/sub
 notifications:
   email:
     on_success: change
