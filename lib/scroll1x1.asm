@@ -20,16 +20,29 @@
   
   // shift text to left
   copyFast(screenPtr, tempZero1, 2)
-  ldy #$00
-shiftText:
-  iny
-  lda (tempZero1), y
-  dey
-  sta (tempZero1), y
-  iny
-  cpy #39
-  bne shiftText
   
+  #if C64LIB_SPEED_CODE
+    ldy #$01
+    .for(var i = 0; i < 39; i++) {
+      // speed copy of 39 characters
+      lda (tempZero1), y
+      dey
+      sta (tempZero1), y
+      iny
+      iny
+    }
+  #else
+    ldy #$00
+    shiftText:
+      iny
+      lda (tempZero1), y
+      dey
+      sta (tempZero1), y
+      iny
+      cpy #39
+    bne shiftText
+  #endif
+    
   // place next char
   copyFast(scrollPtr, tempZero1, 2)
   ldy #$00
