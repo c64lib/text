@@ -2,4 +2,4 @@
 #importonce
 .filenamespace c64lib
 
-.macro c64lib_incText(text, count) { incText(text, count) }
+.macro @c64lib_incText(text, count) { incText(text, count) }
