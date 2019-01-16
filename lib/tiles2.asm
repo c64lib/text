@@ -49,5 +49,7 @@
   .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
 }
 
-.var cfg = Tile2Config(0,24,0,0,0,0,0,0,0,0,0)
+.var cfg = Tile2Config()
+.eval cfg.startRow = 0
+.eval cfg.endRow = 24
 drawTile2(cfg)
