@@ -81,10 +81,10 @@
     .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
       lda screenAddress + y*40 + 1, x //(4)/3
       sta screenAddress + y*40, x     //(4)/3
-      inx                             //(2)/1
     }
+    inx                               //(2)/1
     cpx #39                           //(2)/2
-    fbne loop    
+    fbne(loop) 
 }
 .macro _t2_shiftScreenRight(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
@@ -94,10 +94,10 @@
     .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
       lda screenAddress + y*40 - 1, x
       sta screenAddress + y*40, x
-      dex
     }
+    dex
     cpx #0
-    fbne loop
+    fbne(loop)
 }
 .macro _t2_shiftScreenTop(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
