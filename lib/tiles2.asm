@@ -12,6 +12,7 @@
  * (c):       2019
  * GIT repo:  https://github.com/c64lib/text
  */
+#import "common/lib/common.asm"
 #importonce
 .filenamespace c64lib
 
@@ -70,6 +71,7 @@
 
 // ==== Private stuff ====
 
+
 .macro _t2_shiftScreenLeft(cfg, page) {
   // cost 562 cycles per line; 10160 cycles per 25 lines
   // size 13 bytes per line; 181 bytes per 25 lines
@@ -82,14 +84,7 @@
       inx                             //(2)/1
     }
     cpx #39                           //(2)/2
-    loopEnd:
-  .if (loopEnd - loop <= 127) {
-    bne loop                          //(2)/2
-  } else {
-    beq skip
-      jmp loop
-    skip:
-  }
+    fbne loop    
 }
 .macro _t2_shiftScreenRight(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
@@ -102,14 +97,7 @@
       dex
     }
     cpx #0
-    loopEnd:
-  .if (loopEnd - loop <= 127) {
-    bne loop
-  } else {
-    beq skip
-      jmp loop
-    skip:
-  }
+    fbne loop
 }
 .macro _t2_shiftScreenTop(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
