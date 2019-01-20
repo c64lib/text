@@ -71,8 +71,8 @@
 
 // ==== Private stuff ====
 .macro _t2_shiftScreenLeft(cfg, page) {
-  // cost 562 cycles per line; 10160 cycles per 25 lines
-  // size 13 bytes per line; 181 bytes per 25 lines
+  // cost ???
+  // size ???
   .var screenAddress = _t2_screenAddress(cfg, page)
   ldx #0                              //(2)/2
   loop:
@@ -84,18 +84,19 @@
     cpx #39                           //(2)/2
   fbne(loop) 
 }
-.macro _t2_shiftScreenRight(cfg, page) {
-  // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
+.macro _t2_shiftScreenLeftTop(cfg, page) {
+  // cost 548cc / 8153cc
+  // size 13b   / 160b
   .var screenAddress = _t2_screenAddress(cfg, page)
-  ldx #39
+  ldx #0                                      // 2-2
   loop:
-    .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
-      lda screenAddress + y*40 - 1, x
-      sta screenAddress + y*40, x
+    .for(var y = cfg.startRow; y <= cfg.endRow - 1; y++) {
+      lda screenAddress + (y + 1)*40 + 1, x   // 4-3
+      sta screenAddress + y*40, x             // 4-3
     }
-    dex
-    cpx #0
-  fbne(loop)
+    inx                                       // 2-1
+    cpx #39                                   // 2-2
+  fbne(loop)                                  // 2-2 / 5-5
 }
 .macro _t2_shiftScreenTop(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
@@ -108,6 +109,19 @@
     }
     inx
     cpx #40
+  fbne(loop)
+}
+.macro _t2_shiftScreenRight(cfg, page) {
+  // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
+  .var screenAddress = _t2_screenAddress(cfg, page)
+  ldx #39
+  loop:
+    .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
+      lda screenAddress + y*40 - 1, x
+      sta screenAddress + y*40, x
+    }
+    dex
+    cpx #0
   fbne(loop)
 }
 .macro _t2_shiftScreenBottom(cfg, page) {
