@@ -18,19 +18,32 @@ sfspec: init_spec()
     assert_bytes_equal 1000: testScreenData: expectedScreenData_right
   }
 
+  describe("_t2_shiftScreenTop")
+  
+  it("shifts screen to the top by 1 byte"); {
+    jsr shiftScreenTop
+    
+    assert_bytes_equal 1000: testScreenData: expectedScreenData_top
+  }
+
+  describe("_t2_shiftScreenBottom")
+  
+  it("shifts screen to the bottom by 1 byte"); {
+    jsr shiftScreenBottom
+    
+    assert_bytes_equal 1000: testScreenData: expectedScreenData_bottom
+  }
+
 finish_spec()
 
 * = * "Data"
 .namespace c64lib {
-.var @cfg = Tile2Config()
-.eval @cfg.bank = 0
-.eval @cfg.page0 = 5120/1024
-.eval @cfg.startRow = 1
-.eval @cfg.endRow = 23
+  .var @cfg = Tile2Config()
+  .eval @cfg.bank = 0
+  .eval @cfg.page0 = 5120/1024
+  .eval @cfg.startRow = 1
+  .eval @cfg.endRow = 23
 }
-
-shiftScreenLeft: .namespace c64lib { _t2_shiftScreenLeft(@cfg, 0); rts }
-shiftScreenRight: .namespace c64lib { _t2_shiftScreenRight(@cfg, 0); rts }
 
 .align $400
 testScreenData: {
@@ -76,3 +89,39 @@ expectedScreenData_right: {
     .fill 40, i
   }
 }
+expectedScreenData_top: {
+  .for(var y = 0; y < cfg.startRow; y++) {
+    .fill 40, i
+  }
+  .var v = 0
+  .for(var y = cfg.startRow; y <= cfg.endRow - 1; y++) {
+    .byte <(v + 2)
+    .fill 39, <(v + i + 2)
+    .eval v++
+  }
+  .byte <(v + 1)
+  .fill 39, <(v + i + 1)
+  .for(var y = cfg.endRow + 1; y < 25; y++) {
+    .fill 40, i
+  }
+}
+expectedScreenData_bottom: {
+  .for(var y = 0; y < cfg.startRow; y++) {
+    .fill 40, i
+  }
+  .var v = 0
+  .byte <(v + 2)
+  .fill 39, <(v + i + 2)
+  .for(var y = cfg.startRow + 1; y <= cfg.endRow; y++) {
+    .byte <(v + 2)
+    .fill 39, <(v + i + 2)
+    .eval v++
+  }
+  .for(var y = cfg.endRow + 1; y < 25; y++) {
+    .fill 40, i
+  }
+}
+shiftScreenLeft:    .namespace c64lib { _t2_shiftScreenLeft(@cfg, 0); rts }
+shiftScreenRight:   .namespace c64lib { _t2_shiftScreenRight(@cfg, 0); rts }
+shiftScreenTop:     .namespace c64lib { _t2_shiftScreenTop(@cfg, 0); rts }
+shiftScreenBottom:  .namespace c64lib { _t2_shiftScreenBottom(@cfg, 0); rts }

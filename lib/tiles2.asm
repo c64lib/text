@@ -70,8 +70,6 @@
 }
 
 // ==== Private stuff ====
-
-
 .macro _t2_shiftScreenLeft(cfg, page) {
   // cost 562 cycles per line; 10160 cycles per 25 lines
   // size 13 bytes per line; 181 bytes per 25 lines
@@ -84,7 +82,7 @@
     }
     inx                               //(2)/1
     cpx #39                           //(2)/2
-    fbne(loop) 
+  fbne(loop) 
 }
 .macro _t2_shiftScreenRight(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
@@ -97,27 +95,33 @@
     }
     dex
     cpx #0
-    fbne(loop)
+  fbne(loop)
 }
 .macro _t2_shiftScreenTop(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
-  .for(var y = cfg.startRow + 1; y <= cfg.endRow; y++) {
-    .for(var x = 0; x <= 39; x++) {
-      lda screenAddress + y*40 + x
-      sta screenAddress + (y - 1)*40 + x
+  ldx #0
+  loop:
+    .for(var y = cfg.startRow + 1; y <= cfg.endRow; y++) {
+      lda screenAddress + y*40, x
+      sta screenAddress + (y - 1)*40, x
     }
-  }
+    inx
+    cpx #40
+  fbne(loop)
 }
 .macro _t2_shiftScreenBottom(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
-  .for(var y = cfg.endRow - 1; y <= cfg.startRow; y--) {
-    .for(var x = 0; x <= 39; x++) {
-      lda screenAddress + y*40 + x
-      sta screenAddress + (y + 1)*40 + x
+  ldx #0
+  loop:
+    .for(var y = cfg.endRow - 1; y >= cfg.startRow; y--) {
+      lda screenAddress + y*40, x
+      sta screenAddress + (y + 1)*40, x
     }
-  }
+    inx
+    cpx #40
+  fbne(loop)
 }
 
 .macro _t2_validate(tile2Config) {
@@ -136,13 +140,3 @@
     .return cfg.page1
   }
 }
-
-// to be removed
-.var cfg = Tile2Config()
-.eval cfg.startRow = 0
-.eval cfg.endRow = 24
-.eval cfg.phase = $2
-.eval cfg.addrAccumulator = $3
-tile2Init(cfg)
-tile2Draw(cfg)
-tile2Animate(cfg)
