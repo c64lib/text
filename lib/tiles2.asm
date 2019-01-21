@@ -138,6 +138,19 @@
     cpx #0
   fbne(loop)
 }
+.macro _t2_shiftScreenRightBottom(cfg, page) {
+  // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
+  .var screenAddress = _t2_screenAddress(cfg, page)
+  ldx #39
+  loop:
+    .for(var y = cfg.endRow - 1; y >= cfg.startRow; y--) {
+      lda screenAddress + y*40 - 1, x
+      sta screenAddress + (y + 1)*40, x
+    }
+    dex
+    cpx #0
+  fbne(loop)
+}
 .macro _t2_shiftScreenBottom(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
