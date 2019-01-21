@@ -111,6 +111,20 @@
     cpx #40
   fbne(loop)
 }
+.macro _t2_shiftScreenRightTop(cfg, page) {
+  // cost 548cc / 8153cc
+  // size 13b   / 160b
+  .var screenAddress = _t2_screenAddress(cfg, page)
+  ldx #39                                     // 2-2
+  loop:
+    .for(var y = cfg.startRow; y <= cfg.endRow - 1; y++) {
+      lda screenAddress + (y + 1)*40 - 1, x   // 4-3
+      sta screenAddress + y*40, x             // 4-3
+    }
+    dex                                       // 2-1
+    cpx #0                                    // 2-2
+  fbne(loop)                                  // 2-2 / 5-5
+}
 .macro _t2_shiftScreenRight(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
