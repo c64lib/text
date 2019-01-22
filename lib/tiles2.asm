@@ -164,6 +164,19 @@
     cpx #40
   fbne(loop)
 }
+.macro _t2_shiftScreenLeftBottom(cfg, page) {
+  // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
+  .var screenAddress = _t2_screenAddress(cfg, page)
+  ldx #0
+  loop:
+    .for(var y = cfg.endRow - 1; y >= cfg.startRow; y--) {
+      lda screenAddress + y*40 + 1, x
+      sta screenAddress + (y + 1)*40, x
+    }
+    inx
+    cpx #39
+  fbne(loop)
+}
 
 .macro _t2_validate(tile2Config) {
   .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
