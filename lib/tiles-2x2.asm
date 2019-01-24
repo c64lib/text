@@ -44,5 +44,7 @@
   .eval tileCommonCfg.bank = tile2Config.bank
   .eval tileCommonCfg.page0 = tile2Config.page0
   .eval tileCommonCfg.page1 = tile2Config.page1
+  .eval tileCommonCfg.x = tile2Config.x
+  .eval tileCommonCfg.y = tile2Config.y
   .return tileCommonCfg
 }

@@ -13,6 +13,7 @@
  * GIT repo:  https://github.com/c64lib/text
  */
 #import "common/lib/common.asm"
+#import "chipset/lib/vic2.asm"
 #importonce
 .filenamespace c64lib
 
@@ -31,7 +32,12 @@
   // page number (0..15) of page 0 (1024 bytes) for double buffering
   page0,
   // page number (0..15) of page 1 (1024 bytes) for double buffering
-  page1
+  page1,
+  // address (8 or 16 bit) for X position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  x,
+  // address (8 or 16 bit) for Y position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  y
+
 }
 
 // ==== Public hosted subroutines ====
@@ -157,6 +163,34 @@
     inx
     cpx #39
   fbne(loop)
+}
+// color ram macros
+.macro _calculateXOffset(cfg, tileSize) {
+  lda cfg.x
+  .if (tileSize == 2) {
+    lsr
+  }
+  .for (var i = 0; i < 6; i++) {
+    lsr
+  }
+  and #%00000011
+  tay
+}
+
+.macro _shiftColorRamLeft(cfg, tileSize) {
+  _calculateXOffset(cfg, tileSize)
+  .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
+    tya
+    tax
+    loop:
+      lda COLOR_RAM + y*40 + 1, x
+      sta COLOR_RAM + y*40, x
+      .for (var t = 0; t < tileSize; t++) {
+        inx
+      }
+      cpx #39
+    bmi loop
+  }
 }
 
 .macro _t2_validate(tile2Config) {
