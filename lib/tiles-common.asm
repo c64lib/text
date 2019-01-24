@@ -1,5 +1,5 @@
 /*
- * c64lib/text/tiles2.asm
+ * c64lib/text/tiles-common.asm
  *
  * A library that supports drawing and 4-directional scrolling of 2x2 tile map using text modes
  * of VIC-2. All three text modes are supported.

@@ -1,13 +1,13 @@
 #import "64spec/lib/64spec.asm"
-#import "../lib/tiles2.asm"
+#import "../lib/tiles-common.asm"
 
 sfspec: init_spec()
-  describe("_t2_shiftScreenLeftTop")
+  describe("_t2_shiftScreenRightTop")
   
-  it("shifts screen to the left/top by 1 byte"); {
-    jsr shiftScreenLeftTop
+  it("shifts screen to the right/top by 1 byte"); {
+    jsr shiftScreenRightTop
     
-    assert_bytes_equal 1000: testScreenData: expectedScreenData_leftTop
+    assert_bytes_equal 1000: testScreenData: expectedScreenData_rightTop
   }
 
 finish_spec()
@@ -37,14 +37,14 @@ testScreenData: {
 }
 .print "test data address = " + testScreenData
 
-expectedScreenData_leftTop: {
+expectedScreenData_rightTop: {
   .for(var y = 0; y < cfg.startRow; y++) {
     .fill 40, i
   }
   .var v = 0
   .for(var y = cfg.startRow; y <= cfg.endRow - 1; y++) {
-    .fill 39, <(v + i + 2)
-    .byte <(v + 39)
+    .byte <v
+    .fill 39, <(v + i + 1)
     .eval v++
   }
   .fill 40, <(v + i)
@@ -52,4 +52,4 @@ expectedScreenData_leftTop: {
     .fill 40, i
   }
 }
-shiftScreenLeftTop:   .namespace c64lib { _t2_shiftScreenLeftTop(@cfg, 0); rts }
+shiftScreenRightTop:  .namespace c64lib { _t2_shiftScreenRightTop(@cfg, 0); rts }
