@@ -14,7 +14,7 @@ finish_spec()
 
 * = * "Data"
 .namespace c64lib {
-  .var @cfg = Tile2Config()
+  .var @cfg = TileCommonConfig()
   .eval @cfg.bank = 0
   .eval @cfg.page0 = 4096/1024
   .eval @cfg.startRow = 1
