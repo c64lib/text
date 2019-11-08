@@ -178,16 +178,19 @@
   lda cfg.x
   // todo it works with tilesize 2 only
   and #%00000001
-  eor #%00000001
-  tay
 }
 
 .macro _shiftColorRamLeft(cfg, tileSize) {
   _shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
 }
+.macro _shiftColorRamRight(cfg, tileSize) {
+  _shiftInterleavedRight(cfg, COLOR_RAM, tileSize);
+}
 
 .macro _shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _calculateXOffset(cfg, tileSize)
+  eor #%00000001  // here we need to negate the value
+  tay
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
     tya
     tax
@@ -199,6 +202,26 @@
       }
       cpx #39
     bmi loop
+  }
+}
+
+.macro _shiftInterleavedRight(cfg, startAddress, tileSize) {
+  _calculateXOffset(cfg, tileSize)
+  clc
+  adc #39
+  tay
+  .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
+    tya
+    tax
+    loop:
+      lda startAddress + y*40 - 2, x
+      sta startAddress + y*40 - 1, x
+      .for (var t = 0; t < tileSize; t++) {
+        dex
+      }
+      cpx #1
+    beq loop
+    bpl loop
   }
 }
 

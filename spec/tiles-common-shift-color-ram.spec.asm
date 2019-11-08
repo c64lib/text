@@ -6,7 +6,6 @@ sfspec: init_spec()
 
   describe("_shiftInterleavedLeft")
   
-  
     it("shifts given memory to the left by 1 byte from position [0, 0]"); {
     
       c64lib_pushParamW(initialScreenData0)
@@ -39,6 +38,39 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenLeft1
     }
 
+  describe("_shiftInterleavedRight")
+  
+    it("shifts given memory to the right by 1 byte from position [0, 0]"); {
+    
+      c64lib_pushParamW(initialScreenData0)
+      c64lib_pushParamW(testScreenData)
+      c64lib_pushParamW(1000)
+      jsr copyLargeMemForward
+      
+      lda #0
+      sta x
+      sta y
+  
+      jsr shiftInterleavedRight
+      
+      assert_bytes_equal 1000: testScreenData: expectedScreenRight0
+    }
+
+    it("shifts given memory to the right by 1 byte from position [1, 1]"); {
+    
+      c64lib_pushParamW(initialScreenData1)
+      c64lib_pushParamW(testScreenData)
+      c64lib_pushParamW(1000)
+      jsr copyLargeMemForward
+      
+      lda #1
+      sta x
+      sta y
+  
+      jsr shiftInterleavedRight
+      
+      assert_bytes_equal 1000: testScreenData: expectedScreenRight1
+    }
 
 finish_spec()
 
@@ -83,6 +115,7 @@ initialScreenData0: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "1234567890123456789012345678901234567890" 
 }
+
 initialScreenData1: {
   //    "0000011111222223333344444555556666677777"
   .text "1234567890123456789012345678901234567890" 
@@ -144,6 +177,7 @@ expectedScreenLeft0: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
   .text "1234567890123456789012345678901234567890" 
 }
+
 expectedScreenLeft1: {
   //    "0000011111222223333344444555556666677777"
   .text "1234567890123456789012345678901234567890" 
@@ -173,6 +207,65 @@ expectedScreenLeft1: {
   .text "1234567890123456789012345678901234567890" 
 }
 
+expectedScreenRight0: {
+  //    "0000011111222223333344444555556666677777"
+  .text "1234567890123456789012345678901234567890" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "1234567890123456789012345678901234567890" 
+}
+
+expectedScreenRight1: {
+  //    "0000011111222223333344444555556666677777"
+  .text "1234567890123456789012345678901234567890" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "1234567890123456789012345678901234567890" 
+}
+
 shiftInterleavedLeft:   .namespace c64lib { _shiftInterleavedLeft(@cfg, testScreenData, 2); rts }
+shiftInterleavedRight:   .namespace c64lib { _shiftInterleavedRight(@cfg, testScreenData, 2); rts }
 copyLargeMemForward:   
                         #import "common/lib/sub/copy-large-mem-forward.asm"
