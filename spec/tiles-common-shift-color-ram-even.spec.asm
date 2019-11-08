@@ -4,7 +4,7 @@
 
 sfspec: init_spec()
 
-  describe("_shiftInterleavedLeft")
+  describe("_shiftInterleavedLeft even")
   
     it("shifts mem left by 1 from [0,0]"); {
     
@@ -150,7 +150,7 @@ y: .word 0
   .eval @cfg.bank = 0
   .eval @cfg.page0 = 5120/1024
   .eval @cfg.startRow = 1
-  .eval @cfg.endRow = 23
+  .eval @cfg.endRow = 22
   .eval @cfg.x = x
   .eval @cfg.y = y
 }
@@ -180,7 +180,7 @@ initialScreenData0: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -209,7 +209,7 @@ initialScreenData1: {
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -242,7 +242,7 @@ expectedScreenLeft0: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -271,7 +271,7 @@ expectedScreenLeft1: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -300,7 +300,7 @@ expectedScreenRight0: {
   .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -329,7 +329,7 @@ expectedScreenRight1: {
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -357,8 +357,8 @@ expectedScreenTop0: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -387,7 +387,7 @@ expectedScreenTop1: {
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -416,7 +416,7 @@ expectedScreenBottom0: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -445,7 +445,7 @@ expectedScreenBottom1: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
