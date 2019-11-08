@@ -220,8 +220,9 @@
         dex
       }
       cpx #1
-    beq loop
-    bpl loop
+      beq end
+      bpl loop
+    end:
   }
 }
 
