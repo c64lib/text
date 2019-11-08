@@ -6,7 +6,7 @@ sfspec: init_spec()
 
   describe("_shiftInterleavedLeft")
   
-    it("shifts given memory to the left by 1 byte from position [0, 0]"); {
+    it("shifts mem left by 1 from [0,0]"); {
     
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
@@ -22,7 +22,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenLeft0
     }
 
-    it("shifts given memory to the left by 1 byte from position [1, 1]"); {
+    it("shifts mem left by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
@@ -40,7 +40,7 @@ sfspec: init_spec()
 
   describe("_shiftInterleavedRight")
   
-    it("shifts given memory to the right by 1 byte from position [0, 0]"); {
+    it("shifts mem right by 1 from [0,0]"); {
     
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
@@ -56,7 +56,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenRight0
     }
 
-    it("shifts given memory to the right by 1 byte from position [1, 1]"); {
+    it("shifts mem right by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
@@ -74,7 +74,7 @@ sfspec: init_spec()
 
   describe("_shiftInterleavedTop")
   
-    it("shifts given memory to the top by 1 byte from position [0, 0]"); {
+    it("shifts mem top by 1 from [0,0]"); {
     
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
@@ -90,7 +90,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenTop0
     }
 
-    it("shifts given memory to the top by 1 byte from position [1, 1]"); {
+    it("shifts mem top by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
@@ -105,10 +105,10 @@ sfspec: init_spec()
       
       assert_bytes_equal 1000: testScreenData: expectedScreenTop1
     }
-    
+  /*  
   describe("_shiftInterleavedBottom")
   
-    it("shifts given memory to the bottom by 1 byte from position [0, 0]"); {
+    it("shifts mem bottom by 1 from [0,0]"); {
     
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
@@ -124,7 +124,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenBottom0
     }
 
-    it("shifts given memory to the bottom by 1 byte from position [1, 1]"); {
+    it("shifts mem bottom by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
@@ -138,7 +138,7 @@ sfspec: init_spec()
       jsr shiftInterleavedBottom
       
       assert_bytes_equal 1000: testScreenData: expectedScreenBottom1
-    }
+    }*/
 
 finish_spec()
 
@@ -365,8 +365,6 @@ expectedScreenTop0: {
 expectedScreenTop1: {
   //    "0000011111222223333344444555556666677777"
   .text "1234567890123456789012345678901234567890" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
@@ -387,6 +385,8 @@ expectedScreenTop1: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "1234567890123456789012345678901234567890" 
 }

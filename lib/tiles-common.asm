@@ -180,6 +180,13 @@
   and #%00000001
 }
 
+.macro _calculateYOffset(cfg, tileSize) {
+  .assert "tilesize 2 is only supported", tileSize, 2
+  lda cfg.y
+  // todo it works with tilesize 2 only
+  and #%00000001
+}
+
 .macro _shiftColorRamLeft(cfg, tileSize) {
   _shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
 }
@@ -233,6 +240,33 @@
 }
 
 .macro _shiftInterleavedTop(cfg, startAddress, tileSize) {
+  _calculateYOffset(cfg, tileSize)
+  
+  beq even
+  jmp odd
+  
+  even:
+    ldx #40
+    !loop:
+      .for(var y = cfg.startRow + 1; y < cfg.endRow; y = y + 2) {
+        lda startAddress + (y + 1)*40 - 1, x
+        sta startAddress + y*40 - 1, x
+      }
+      dex
+    fbne(!loop-)
+    jmp end
+  
+  odd: 
+    ldx #40
+    !loop:
+      .for(var y = cfg.startRow; y < cfg.endRow - 1; y = y + 2) {
+        lda startAddress + (y + 1)*40 - 1, x
+        sta startAddress + y*40 - 1, x
+      }
+      dex
+    fbne(!loop-)
+  
+  end:
 }
 
 .macro _shiftInterleavedBottom(cfg, startAddress, tileSize) {
