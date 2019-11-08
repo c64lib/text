@@ -105,10 +105,10 @@ sfspec: init_spec()
       
       assert_bytes_equal 1000: testScreenData: expectedScreenTop1
     }
-  /*  
+  
   describe("_shiftInterleavedBottom")
   
-    it("shifts mem bottom by 1 from [0,0]"); {
+    it("shifts mem bottm by 1 from [0,0]"); {
     
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
@@ -124,7 +124,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenBottom0
     }
 
-    it("shifts mem bottom by 1 from [1,1]"); {
+    it("shifts mem bottm by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
@@ -138,7 +138,7 @@ sfspec: init_spec()
       jsr shiftInterleavedBottom
       
       assert_bytes_equal 1000: testScreenData: expectedScreenBottom1
-    }*/
+    }
 
 finish_spec()
 

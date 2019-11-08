@@ -240,13 +240,14 @@
 }
 
 .macro _shiftInterleavedTop(cfg, startAddress, tileSize) {
+  ldx #40
+
   _calculateYOffset(cfg, tileSize)
   
   beq even
   jmp odd
   
   even:
-    ldx #40
     !loop:
       .for(var y = cfg.startRow + 1; y < cfg.endRow; y = y + 2) {
         lda startAddress + (y + 1)*40 - 1, x
@@ -257,7 +258,6 @@
     jmp end
   
   odd: 
-    ldx #40
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow - 1; y = y + 2) {
         lda startAddress + (y + 1)*40 - 1, x
@@ -270,6 +270,33 @@
 }
 
 .macro _shiftInterleavedBottom(cfg, startAddress, tileSize) {
+  ldx #40
+
+  _calculateYOffset(cfg, tileSize)
+  
+  beq even
+  jmp odd
+  
+  even:
+    !loop:
+      .for(var y = cfg.endRow - 1; y >= cfg.startRow; y = y - 2) {
+        lda startAddress + y*40 - 1, x
+        sta startAddress + (y + 1)*40 - 1, x
+      }
+      dex
+    fbne(!loop-)
+    jmp end
+  
+  odd: 
+    !loop:
+      .for(var y = cfg.endRow - 2; y >= cfg.startRow; y = y - 2) {
+        lda startAddress + y*40 - 1, x
+        sta startAddress + (y + 1)*40 - 1, x
+      }
+      dex
+    fbne(!loop-)
+  
+  end:
 }
 
 .macro _t2_validate(tile2Config) {
