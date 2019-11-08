@@ -186,6 +186,12 @@
 .macro _shiftColorRamRight(cfg, tileSize) {
   _shiftInterleavedRight(cfg, COLOR_RAM, tileSize);
 }
+.macro _shiftColorRamTop(cfg, tileSize) {
+  _shiftInterleavedTop(cfg, COLOR_RAM, tileSize);
+}
+.macro _shiftColorRamBottom(cfg, tileSize) {
+  _shiftInterleavedBottom(cfg, COLOR_RAM, tileSize);
+}
 
 .macro _shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _calculateXOffset(cfg, tileSize)
@@ -224,6 +230,12 @@
       bpl loop
     end:
   }
+}
+
+.macro _shiftInterleavedTop(cfg, startAddress, tileSize) {
+}
+
+.macro _shiftInterleavedBottom(cfg, startAddress, tileSize) {
 }
 
 .macro _t2_validate(tile2Config) {
