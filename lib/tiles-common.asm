@@ -71,6 +71,7 @@
     cpx #39                           //(2)/2
   fbne(loop) 
 }
+
 .macro _t2_shiftScreenLeftTop(cfg, page) {
   // cost 548cc / 8153cc
   // size 13b   / 160b
@@ -85,6 +86,7 @@
     cpx #39                                   // 2-2
   fbne(loop)                                  // 2-2 / 5-5
 }
+
 .macro _t2_shiftScreenTop(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
@@ -98,6 +100,7 @@
     cpx #40
   fbne(loop)
 }
+
 .macro _t2_shiftScreenRightTop(cfg, page) {
   // cost 548cc / 8153cc
   // size 13b   / 160b
@@ -112,6 +115,7 @@
     cpx #0                                    // 2-2
   fbne(loop)                                  // 2-2 / 5-5
 }
+
 .macro _t2_shiftScreenRight(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
@@ -125,6 +129,7 @@
     cpx #0
   fbne(loop)
 }
+
 .macro _t2_shiftScreenRightBottom(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
@@ -138,6 +143,7 @@
     cpx #0
   fbne(loop)
 }
+
 .macro _t2_shiftScreenBottom(cfg, page) {
   // cost 40 * 8 (=320) cycles per line; 7680 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
@@ -151,6 +157,7 @@
     cpx #40
   fbne(loop)
 }
+
 .macro _t2_shiftScreenLeftBottom(cfg, page) {
   // cost 39 * 8 (=312) cycles per line; 7800 cycles per 25 lines
   .var screenAddress = _t2_screenAddress(cfg, page)
@@ -164,27 +171,29 @@
     cpx #39
   fbne(loop)
 }
+
 // color ram macros
 .macro _calculateXOffset(cfg, tileSize) {
+  .assert "tilesize 2 is only supported", tileSize, 2
   lda cfg.x
-  .if (tileSize == 2) {
-    lsr
-  }
-  .for (var i = 0; i < 6; i++) {
-    lsr
-  }
-  and #%00000011
+  // todo it works with tilesize 2 only
+  and #%00000001
+  eor #%00000001
   tay
 }
 
 .macro _shiftColorRamLeft(cfg, tileSize) {
+  _shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
+}
+
+.macro _shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _calculateXOffset(cfg, tileSize)
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
     tya
     tax
     loop:
-      lda COLOR_RAM + y*40 + 1, x
-      sta COLOR_RAM + y*40, x
+      lda startAddress + y*40 + 1, x
+      sta startAddress + y*40, x
       .for (var t = 0; t < tileSize; t++) {
         inx
       }

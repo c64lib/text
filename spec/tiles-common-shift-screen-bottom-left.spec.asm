@@ -23,33 +23,61 @@ finish_spec()
 
 .align $400
 testScreenData: {
-  .for(var y = 0; y < cfg.startRow; y++) {
-    .fill 40, i
-  }
-  .var v = 0
-  .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
-    .fill 40, <(v + i)
-    .eval v++
-  }
-  .for(var y = cfg.endRow + 1; y < 25; y++) {
-    .fill 40, i
-  }
+  //    "0000011111222223333344444555556666677777"
+  .text "1234567890123456789012345678901234567890" 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text " .   .   .   .   .   .   .   .   .   .  " 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text "1234567890123456789012345678901234567890" 
 }
 .print "test data address = " + testScreenData
 
 expectedScreenData_leftBottom: {
-  .for(var y = 0; y < cfg.startRow; y++) {
-    .fill 40, i
-  }
-  .var v = 0
-  .fill 40, <(v + i)
-  .for(var y = cfg.startRow; y <= cfg.endRow - 1; y++) {
-    .fill 39, <(v + i + 1)
-    .byte <(v + 40)
-    .eval v++
-  }
-  .for(var y = cfg.endRow + 1; y < 25; y++) {
-    .fill 40, i
-  }
+  //    "0000011111222223333344444555556666677777"
+  .text "1234567890123456789012345678901234567890" 
+  .text "   .   .   .   .   .   .   .   .   .   ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "  .   .   .   .   .   .   .   .   .   . " 
+  .text ".   .   .   .   .   .   .   .   .   .  ." 
+  .text "1234567890123456789012345678901234567890" 
 }
 shiftScreenLeftBottom:  .namespace c64lib { _t2_shiftScreenLeftBottom(@cfg, 0); rts }
