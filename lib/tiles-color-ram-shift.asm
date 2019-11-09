@@ -61,7 +61,7 @@
 }
 
 
-// = color ram internals =
+// orthogonal shifts
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
   eor #%00000001  // here we need to negate the value
@@ -165,8 +165,10 @@
   end:
 }
 
+// diagonal shifts
+
 .macro _t2_shiftInterleavedTopLeft(cfg, startAddress, tileSize) {
-/* [o] */
+
   ldx #0
 
   _t2_calculateYOffset(cfg, tileSize)
@@ -212,11 +214,59 @@
       inx
       cpx #39
     fbmi(!loop-)
-    jmp end
+
   end:
 }
 
 .macro _t2_shiftInterleavedTopRight(cfg, startAddress, tileSize) {
+/* [o] */
+  ldx #39
+
+  _t2_calculateYOffset(cfg, tileSize)
+  
+  beq even
+  jmp odd
+  
+  even:
+    !loop:
+      .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
+        // here we to copy every second byte
+        lda startAddress + (y + 1)*40 - 2, x
+        sta startAddress + y*40 - 1, x
+        .if (y < cfg.endRow - 1) {
+          // but here we have to copy whole line
+          lda startAddress + (y + 2)*40 + 1, x
+          sta startAddress + (y + 1)*40, x
+          lda startAddress + (y + 2)*40 + 2, x
+          sta startAddress + (y + 1)*40 + 1, x
+        }
+      }
+      dex
+      dex
+      cpx #2
+    fbmi(!loop-)
+    jmp end
+  
+  odd: 
+    !loop:
+      .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
+        // but here we have to copy whole line
+        lda startAddress + (y + 1)*40 + 1, x
+        sta startAddress + (y + 0)*40, x
+        lda startAddress + (y + 1)*40 + 2, x
+        sta startAddress + (y + 0)*40 + 1, x
+        .if (y < cfg.endRow - 1) {
+          // here we to copy every second byte
+          lda startAddress + (y + 2)*40 + 1, x
+          sta startAddress + (y + 1)*40 + 0, x
+        }
+      }
+      dex
+      dex
+      cpx #1
+    fbmi(!loop-)
+
+  end:
 }
 
 .macro _t2_shiftInterleavedBottomLeft(cfg, startAddress, tileSize) {

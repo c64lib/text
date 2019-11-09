@@ -53,7 +53,7 @@ sfspec: init_spec()
   
       jsr shiftInterleavedTopRight
       
-      assert_bytes_equal 1000: testScreenData: expectedScreenTopRight0
+      assert_bytes_equal 43: testScreenData: expectedScreenTopRight0
     }
 
     it("shifts mem top right by 1 from [1,1]"); {
