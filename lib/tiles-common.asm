@@ -2,7 +2,7 @@
  * c64lib/text/tiles-common.asm
  *
  * A library that supports drawing and 4-directional scrolling of 2x2 tile map using text modes
- * of VIC-2. All three text modes are supported.
+ * of VIC-II. All three text modes are supported.
  *
  * Color limitations:
  *  - color RAM is configured per 2x2 tile
@@ -55,6 +55,7 @@
 .macro tile2Animate(cfg) {
   _t2_validate(cfg)
 }
+
 
 // ==== Private stuff ====
 .macro _t2_shiftScreenLeft(cfg, page) {
@@ -172,7 +173,7 @@
   fbne(loop)
 }
 
-// color ram macros
+// = color ram macros =
 .macro _t2_calculateXOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
   lda cfg.x
@@ -187,6 +188,7 @@
   and #%00000001
 }
 
+// = color ram shifting routines =
 .macro _t2_shiftColorRamLeft(cfg, tileSize) {
   _t2_shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
 }
@@ -200,6 +202,7 @@
   _t2_shiftInterleavedBottom(cfg, COLOR_RAM, tileSize);
 }
 
+// = color ram internals =
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
   eor #%00000001  // here we need to negate the value
@@ -302,6 +305,8 @@
   
   end:
 }
+
+// = other stuff =
 
 .macro _t2_validate(tile2Config) {
   .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
