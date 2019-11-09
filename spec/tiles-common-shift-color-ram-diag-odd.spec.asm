@@ -271,7 +271,7 @@ expectedScreenTopLeft1: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "1234567890123456789012345678901234567890" 
 }
 

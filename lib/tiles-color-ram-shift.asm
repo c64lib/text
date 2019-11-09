@@ -194,23 +194,25 @@
     fbmi(!loop-)
     jmp end
   
-  odd: /*
+  odd: 
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
-        // here we to copy every second byte
-        lda startAddress + (y + 1)*40 + 1, x
-        sta startAddress + y*40, x
         // but here we have to copy whole line
-        lda startAddress + (y + 2)*40 + 1, x
-        sta startAddress + (y + 1)*40, x
-        lda startAddress + (y + 2)*40 + 2, x
-        sta startAddress + (y + 1)*40 + 1, x
+        lda startAddress + (y + 1)*40 + 1, x
+        sta startAddress + (y + 0)*40, x
+        lda startAddress + (y + 1)*40 + 2, x
+        sta startAddress + (y + 0)*40 + 1, x
+        .if (y < cfg.endRow - 1) {
+          // here we to copy every second byte
+          lda startAddress + (y + 2)*40 + 1, x
+          sta startAddress + (y + 1)*40 + 0, x
+        }
       }
-      dex
-      dex
+      inx
+      inx
       cpx #39
     fbmi(!loop-)
-  */
+    jmp end
   end:
 }
 
