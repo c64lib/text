@@ -450,9 +450,9 @@ expectedScreenBottom1: {
 }
 
 
-shiftInterleavedLeft:   .namespace c64lib { _shiftInterleavedLeft(@cfg, testScreenData, 2); rts }
-shiftInterleavedRight:  .namespace c64lib { _shiftInterleavedRight(@cfg, testScreenData, 2); rts }
-shiftInterleavedTop:    .namespace c64lib { _shiftInterleavedTop(@cfg, testScreenData, 2); rts }
-shiftInterleavedBottom: .namespace c64lib { _shiftInterleavedBottom(@cfg, testScreenData, 2); rts }
+shiftInterleavedLeft:   .namespace c64lib { _t2_shiftInterleavedLeft(@cfg, testScreenData, 2); rts }
+shiftInterleavedRight:  .namespace c64lib { _t2_shiftInterleavedRight(@cfg, testScreenData, 2); rts }
+shiftInterleavedTop:    .namespace c64lib { _t2_shiftInterleavedTop(@cfg, testScreenData, 2); rts }
+shiftInterleavedBottom: .namespace c64lib { _t2_shiftInterleavedBottom(@cfg, testScreenData, 2); rts }
 copyLargeMemForward:   
                         #import "common/lib/sub/copy-large-mem-forward.asm"

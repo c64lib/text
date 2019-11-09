@@ -173,35 +173,35 @@
 }
 
 // color ram macros
-.macro _calculateXOffset(cfg, tileSize) {
+.macro _t2_calculateXOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
   lda cfg.x
   // todo it works with tilesize 2 only
   and #%00000001
 }
 
-.macro _calculateYOffset(cfg, tileSize) {
+.macro _t2_calculateYOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
   lda cfg.y
   // todo it works with tilesize 2 only
   and #%00000001
 }
 
-.macro _shiftColorRamLeft(cfg, tileSize) {
-  _shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
+.macro _t2_shiftColorRamLeft(cfg, tileSize) {
+  _t2_shiftInterleavedLeft(cfg, COLOR_RAM, tileSize);
 }
-.macro _shiftColorRamRight(cfg, tileSize) {
-  _shiftInterleavedRight(cfg, COLOR_RAM, tileSize);
+.macro _t2_shiftColorRamRight(cfg, tileSize) {
+  _t2_shiftInterleavedRight(cfg, COLOR_RAM, tileSize);
 }
-.macro _shiftColorRamTop(cfg, tileSize) {
-  _shiftInterleavedTop(cfg, COLOR_RAM, tileSize);
+.macro _t2_shiftColorRamTop(cfg, tileSize) {
+  _t2_shiftInterleavedTop(cfg, COLOR_RAM, tileSize);
 }
-.macro _shiftColorRamBottom(cfg, tileSize) {
-  _shiftInterleavedBottom(cfg, COLOR_RAM, tileSize);
+.macro _t2_shiftColorRamBottom(cfg, tileSize) {
+  _t2_shiftInterleavedBottom(cfg, COLOR_RAM, tileSize);
 }
 
-.macro _shiftInterleavedLeft(cfg, startAddress, tileSize) {
-  _calculateXOffset(cfg, tileSize)
+.macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
+  _t2_calculateXOffset(cfg, tileSize)
   eor #%00000001  // here we need to negate the value
   tay
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
@@ -218,8 +218,8 @@
   }
 }
 
-.macro _shiftInterleavedRight(cfg, startAddress, tileSize) {
-  _calculateXOffset(cfg, tileSize)
+.macro _t2_shiftInterleavedRight(cfg, startAddress, tileSize) {
+  _t2_calculateXOffset(cfg, tileSize)
   clc
   adc #39
   tay
@@ -239,10 +239,10 @@
   }
 }
 
-.macro _shiftInterleavedTop(cfg, startAddress, tileSize) {
+.macro _t2_shiftInterleavedTop(cfg, startAddress, tileSize) {
   ldx #40
 
-  _calculateYOffset(cfg, tileSize)
+  _t2_calculateYOffset(cfg, tileSize)
   
   beq even
   jmp odd
@@ -269,14 +269,14 @@
   end:
 }
 
-.macro _shiftInterleavedBottom(cfg, startAddress, tileSize) {
+.macro _t2_shiftInterleavedBottom(cfg, startAddress, tileSize) {
 
   .eval var isOdd = mod(cfg.endRow - cfg.startRow, 2)
   .print "Is odd = " + isOdd
 
   ldx #40
 
-  _calculateYOffset(cfg, tileSize)
+  _t2_calculateYOffset(cfg, tileSize)
   
   beq even
   jmp odd
