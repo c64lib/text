@@ -47,6 +47,20 @@
   _t2_shiftInterleavedBottom(cfg, COLOR_RAM, tileSize);
 }
 
+.macro _t2_shiftColorRamTopLeft(cfg, tileSize) {
+  _t2_shiftInterleavedTopLeft(cfg, COLOR_RAM, tileSize);
+}
+.macro _t2_shiftColorRamTopRight(cfg, tileSize) {
+  _t2_shiftInterleavedTopLeft(cfg, COLOR_RAM, tileSize);
+}
+.macro _t2_shiftColorRamBottomLeft(cfg, tileSize) {
+  _t2_shiftInterleavedBottomLeft(cfg, COLOR_RAM, tileSize);
+}
+.macro _t2_shiftColorRamBottomRight(cfg, tileSize) {
+  _t2_shiftInterleavedBottomRight(cfg, COLOR_RAM, tileSize);
+}
+
+
 // = color ram internals =
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
@@ -149,4 +163,16 @@
     fbne(!loop-)
   
   end:
+}
+
+.macro _t2_shiftInterleavedTopLeft(cfg, startAddress, tileSize) {
+}
+
+.macro _t2_shiftInterleavedTopRight(cfg, startAddress, tileSize) {
+}
+
+.macro _t2_shiftInterleavedBottomLeft(cfg, startAddress, tileSize) {
+}
+
+.macro _t2_shiftInterleavedBottomRight(cfg, startAddress, tileSize) {
 }
