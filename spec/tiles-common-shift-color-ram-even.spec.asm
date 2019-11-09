@@ -1,5 +1,5 @@
 #import "64spec/lib/64spec.asm"
-#import "../lib/tiles-common.asm"
+#import "../lib/tiles-color-ram-shift.asm"
 #import "common/lib/invoke-global.asm"
 
 sfspec: init_spec()

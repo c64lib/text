@@ -1,5 +1,5 @@
 #import "64spec/lib/64spec.asm"
-#import "../lib/tiles-common.asm"
+#import "../lib/tiles-screen-shift.asm"
 
 sfspec: init_spec()
   describe("_t2_shiftScreenLeftBottom")
