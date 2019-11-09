@@ -449,10 +449,14 @@ expectedScreenBottomRight1: {
   .text "1234567890123456789012345678901234567890" 
 }
 
-
+codeBegin:
 shiftInterleavedTopLeft:      .namespace c64lib { _t2_shiftInterleavedTopLeft(@cfg, testScreenData, 2); rts }
 shiftInterleavedTopRight:     .namespace c64lib { _t2_shiftInterleavedTopRight(@cfg, testScreenData, 2); rts }
 shiftInterleavedBottomLeft:   .namespace c64lib { _t2_shiftInterleavedBottomLeft(@cfg, testScreenData, 2); rts }
 shiftInterleavedBottomRight:  .namespace c64lib { _t2_shiftInterleavedBottomRight(@cfg, testScreenData, 2); rts }
+codeEnd:
+
 copyLargeMemForward:   
                         #import "common/lib/sub/copy-large-mem-forward.asm"
+
+.print "Total size of tested subroutines = " + (codeEnd - codeBegin) + " bytes"
