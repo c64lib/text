@@ -12,6 +12,7 @@
  * (c):       2019
  * GIT repo:  https://github.com/c64lib/text
  */
+#import "common/lib/common.asm"
 #import "tiles-common.asm"
 #importonce
 .filenamespace c64lib
