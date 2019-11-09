@@ -121,7 +121,7 @@ sfspec: init_spec()
   
       jsr shiftInterleavedBottom
       
-      assert_bytes_equal 1000: testScreenData: expectedScreenBottom0
+      assert_bytes_equal 121: testScreenData: expectedScreenBottom0
     }
 
     it("shifts mem bottm by 1 from [1,1]"); {

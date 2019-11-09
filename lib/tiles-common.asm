@@ -259,7 +259,7 @@
   
   odd: 
     !loop:
-      .for(var y = cfg.startRow; y < cfg.endRow - 1; y = y + 2) {
+      .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         lda startAddress + (y + 1)*40 - 1, x
         sta startAddress + y*40 - 1, x
       }
@@ -270,6 +270,10 @@
 }
 
 .macro _shiftInterleavedBottom(cfg, startAddress, tileSize) {
+
+  .eval var isOdd = mod(cfg.endRow - cfg.startRow, 2)
+  .print "Is odd = " + isOdd
+
   ldx #40
 
   _calculateYOffset(cfg, tileSize)
@@ -279,7 +283,7 @@
   
   even:
     !loop:
-      .for(var y = cfg.endRow - 1; y >= cfg.startRow; y = y - 2) {
+      .for(var y = cfg.endRow - 1 - isOdd; y >= cfg.startRow; y = y - 2) {
         lda startAddress + y*40 - 1, x
         sta startAddress + (y + 1)*40 - 1, x
       }
@@ -289,7 +293,7 @@
   
   odd: 
     !loop:
-      .for(var y = cfg.endRow - 2; y >= cfg.startRow; y = y - 2) {
+      .for(var y = cfg.endRow - 2 + isOdd; y >= cfg.startRow; y = y - 2) {
         lda startAddress + y*40 - 1, x
         sta startAddress + (y + 1)*40 - 1, x
       }
