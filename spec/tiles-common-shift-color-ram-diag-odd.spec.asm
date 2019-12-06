@@ -53,8 +53,9 @@ sfspec: init_spec()
   
       jsr shiftInterleavedTopRight
       
-      assert_bytes_equal 43: testScreenData: expectedScreenTopRight0
+      assert_bytes_equal 1000: testScreenData: expectedScreenTopRight0
     }
+
 
     it("shifts mem top right by 1 from [1,1]"); {
     
@@ -71,6 +72,7 @@ sfspec: init_spec()
       
       assert_bytes_equal 1000: testScreenData: expectedScreenTopRight1
     }
+    
 
   describe("_shiftInterleavedBottomLeft")
   
@@ -139,6 +141,7 @@ sfspec: init_spec()
       
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomRight1
     }
+    
 
 finish_spec()
 
@@ -279,28 +282,28 @@ expectedScreenTopRight0: {
   //    "0000011111222223333344444555556666677777"
   .text "1234567890123456789012345678901234567890" 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "1234567890123456789012345678901234567890" 
 }
 

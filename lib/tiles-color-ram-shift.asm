@@ -235,16 +235,20 @@
         sta startAddress + y*40 - 1, x
         .if (y < cfg.endRow - 1) {
           // but here we have to copy whole line
-          lda startAddress + (y + 2)*40 + 1, x
+          lda startAddress + (y + 2)*40 - 1, x
           sta startAddress + (y + 1)*40, x
-          lda startAddress + (y + 2)*40 + 2, x
-          sta startAddress + (y + 1)*40 + 1, x
+          lda startAddress + (y + 2)*40 - 2, x
+          sta startAddress + (y + 1)*40 - 1, x
         }
       }
       dex
       dex
-      cpx #2
-    fbmi(!loop-)
+      cpx #1
+    fbne(!loop-)
+    .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
+      lda startAddress + (y + 2)*40
+      sta startAddress + (y + 1)*40 + 1
+    }
     jmp end
   
   odd: 
@@ -252,13 +256,13 @@
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         // but here we have to copy whole line
         lda startAddress + (y + 1)*40 + 1, x
-        sta startAddress + (y + 0)*40, x
+        //sta startAddress + (y + 0)*40, x
         lda startAddress + (y + 1)*40 + 2, x
-        sta startAddress + (y + 0)*40 + 1, x
+        //sta startAddress + (y + 0)*40 + 1, x
         .if (y < cfg.endRow - 1) {
           // here we to copy every second byte
           lda startAddress + (y + 2)*40 + 1, x
-          sta startAddress + (y + 1)*40 + 0, x
+          //sta startAddress + (y + 1)*40 + 0, x
         }
       }
       dex
