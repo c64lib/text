@@ -219,7 +219,18 @@
 }
 
 .macro _t2_shiftInterleavedTopRight(cfg, startAddress, tileSize) {
-/* [o] */
+  .for(var y = cfg.startRow; y < cfg.endRow; y++) {
+    ldx #39
+    loop:
+      lda startAddress + (y + 1)*40 - 1, x
+      sta startAddress + y*40, x
+      dex
+      bne loop
+  }
+}
+
+/*
+.macro _t2_shiftInterleavedTopRight(cfg, startAddress, tileSize) {
   ldx #39
 
   _t2_calculateYOffset(cfg, tileSize)
@@ -255,14 +266,14 @@
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         // but here we have to copy whole line
-        lda startAddress + (y + 1)*40 + 1, x
-        //sta startAddress + (y + 0)*40, x
-        lda startAddress + (y + 1)*40 + 2, x
-        //sta startAddress + (y + 0)*40 + 1, x
+        lda startAddress + (y + 1)*40 - 1, x
+        sta startAddress + (y + 0)*40, x
+        lda startAddress + (y + 1)*40 - 2, x
+        sta startAddress + (y + 0)*40 - 1, x
         .if (y < cfg.endRow - 1) {
           // here we to copy every second byte
           lda startAddress + (y + 2)*40 + 1, x
-          //sta startAddress + (y + 1)*40 + 0, x
+          sta startAddress + (y + 1)*40 + 0, x
         }
       }
       dex
@@ -272,9 +283,27 @@
 
   end:
 }
+*/
 
 .macro _t2_shiftInterleavedBottomLeft(cfg, startAddress, tileSize) {
+  .for(var y = cfg.endRow; y > cfg.startRow; y--) {
+    ldx #0
+    loop:
+      lda startAddress + (y - 1)*40 + 1, x
+      sta startAddress + y*40, x
+      inx
+      cpx #39
+      bne loop
+  }
 }
 
 .macro _t2_shiftInterleavedBottomRight(cfg, startAddress, tileSize) {
+  .for(var y = cfg.endRow; y > cfg.startRow; y--) {
+    ldx #39
+    loop:
+      lda startAddress + (y - 1)*40 - 1, x
+      sta startAddress + y*40, x
+      dex
+      bne loop
+  }
 }
