@@ -38,6 +38,7 @@ sfspec: init_spec()
       assert_bytes_equal 1000: testScreenData: expectedScreenTopLeft1
     }
 
+
   describe("_shiftInterleavedTopRight")
   
     it("shifts mem top right by 1 from [0,0]"); {
@@ -121,7 +122,7 @@ sfspec: init_spec()
   
       jsr shiftInterleavedBottomRight
       
-      assert_bytes_equal 121: testScreenData: expectedScreenBottomRight0
+      assert_bytes_equal 1000: testScreenData: expectedScreenBottomRight0
     }
 
     it("shifts mem bottm right by 1 from [1,1]"); {
@@ -139,6 +140,7 @@ sfspec: init_spec()
       
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomRight1
     }
+
 
 finish_spec()
 
@@ -242,7 +244,7 @@ expectedScreenTopLeft0: {
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -271,7 +273,7 @@ expectedScreenTopLeft1: {
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -300,7 +302,7 @@ expectedScreenTopRight0: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -329,7 +331,7 @@ expectedScreenTopRight1: {
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -358,7 +360,7 @@ expectedScreenBottomLeft0: {
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
   .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -387,7 +389,7 @@ expectedScreenBottomLeft1: {
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -416,7 +418,7 @@ expectedScreenBottomRight0: {
   .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
   .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 
@@ -445,7 +447,7 @@ expectedScreenBottomRight1: {
   .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
   .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
   .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "0123456789012345678901234567890123456789" 
   .text "1234567890123456789012345678901234567890" 
 }
 

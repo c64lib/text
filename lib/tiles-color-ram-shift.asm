@@ -168,7 +168,17 @@
 // diagonal shifts
 
 .macro _t2_shiftInterleavedTopLeft(cfg, startAddress, tileSize) {
+  .for(var y = cfg.startRow; y < cfg.endRow; y++) {
+    ldx #0
+    loop:
+      lda startAddress + (y + 1)*40 + 1, x
+      sta startAddress + y*40, x
+      inx
+      cpx #39
+      bne loop
+  }
 
+/*
   ldx #0
 
   _t2_calculateYOffset(cfg, tileSize)
@@ -216,6 +226,7 @@
     fbmi(!loop-)
 
   end:
+  */
 }
 
 .macro _t2_shiftInterleavedTopRight(cfg, startAddress, tileSize) {
