@@ -31,9 +31,12 @@ width: .word 0
 temp: .word 0
 mapOffsetsLo: .fill 256, 0
 mapOffsetsHi: .fill 256, 0
+mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
 mapDefinition: .fill 400, 0
 mapWidth: .byte 0
 mapHeight: .byte 0
+z0: .byte 251
+z1: .byte 253
 
 .print "mapDefinition=$" + toHexString(mapDefinition, 4)
 
@@ -45,11 +48,12 @@ mapHeight: .byte 0
   .eval @cfg.endRow = 22
   .eval @cfg.x = x
   .eval @cfg.y = y
-  .eval @cfg.mapDefinition = mapDefinition
+  .eval @cfg.mapDefinitionPtr = mapDefinitionPtr
   .eval @cfg.mapOffsetsLo = mapOffsetsLo
   .eval @cfg.mapOffsetsHi = mapOffsetsHi
   .eval @cfg.width = mapWidth
   .eval @cfg.height = mapHeight
+  .eval @cfg.z0 = z0
 }
 
 _t2_initMapDefinitionOffsets:      .namespace c64lib { _t2_initMapDefinitionOffsets(@cfg, width, temp); rts }

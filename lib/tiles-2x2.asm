@@ -33,14 +33,15 @@
   // address (8 or 16 bit) for tile colors (256b)
   tileColors,
   // address (8 or 16 bit) for map definition (width * height) bytes
-  mapDefinition,
+  mapDefinitionPtr,
   // address (8 or 16 bit) for display phase counter
   phase,
   // ---- zero page mandatory variables
   // general purpose zero page accumulators for indirect addressing, each accumulator takes two bytes from zero page
-  mapDefinitionPtr,
-  tileDefinitionPtr,
-  tileColorsPtr,
+  z0,
+  z1,
+  z2,
+  z3,
   // ---- precalculated buffers
   // 16 bit address of lo part of map rows
   mapOffsetsLo,  
@@ -83,8 +84,7 @@
  */
 .macro _t2_initMapDefinitionOffsets(cfg, width, temp) {
   cld
-  copy8 #<cfg.mapDefinition : temp
-  copy8 #>cfg.mapDefinition : temp + 1
+  copy16 cfg.mapDefinitionPtr : temp
   copy8 cfg.width : width
   set8 #0 : width + 1
   ldx cfg.height
@@ -102,9 +102,10 @@
 }
 
 .macro _t2_decodeScreenRight(cfg, page) {
-  .var tileDefinitionPtr = cfg.z0
-  .var tileColorsPtr = cfg.z1
-  .var mapDefinitionPtr = cfg.z2  
+  .var mapOffsetsLo = cfg.z0
+  .var mapOffsetsHi = cfg.z1
+  .var tileDefinitionLo = cfg.z2
+  .var tileDefinitionHi = cfg.z3
   
   .for (var y = cfg.startRow; y <= cfg.endRow; y++) {
   }
@@ -118,5 +119,6 @@
   .assert "z0 must be defined on zero page", tile2Config.z0 < 254, true
   .assert "z1 must be defined on zero page", tile2Config.z1 < 254, true
   .assert "z2 must be defined on zero page", tile2Config.z2 < 254, true
+  .assert "z3 must be defined on zero page", tile2Config.z3 < 254, true
 }
 
