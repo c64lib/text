@@ -27,7 +27,8 @@
   width,
   // address (8 or 16 bit) of playfield height (1 byte)
   height,
-  // address (8 or 16 bit) for tile definitions (1kb)
+  // address (8 or 16 bit) for tile definitions (1kb); tiles are encoded in 4x256b banks, each bank storing one char of
+  // the tile: top left is bank 0, top right is bank 1, bottom left is bank 2 and bottom right is bank 3
   tileDefinition,
   // address (8 or 16 bit) for tile colors (256b)
   tileColors,
@@ -41,7 +42,10 @@
   tileDefinitionPtr,
   tileColorsPtr,
   // ---- precalculated buffers
-  mapDefinitionOffsets  
+  // 16 bit address of lo part of map rows
+  mapOffsetsLo,  
+  // 16 bit address of hi part of map rows
+  mapOffsetsHi
 }
 
 .function toTileCommonConfig(tile2Config) {
@@ -59,7 +63,7 @@
 .macro tile2Init(cfg) {
   _t2_validate(cfg)
   
-  _t2_initMapDefinitionOffsets(cfg, mapDefinitionPtr, width, temp)
+  _t2_initMapDefinitionOffsets(cfg, width, temp)
  
   copyFast(cfg.tileDefinition, cfg.tileDefinitionPtr, 2)
   copyFast(cfg.tileColors, cfg.tileColorsPtr, 2)
@@ -69,26 +73,32 @@
   
   jmp end
     // local variables
-    mapDefinitionPtr: .word 0
     width: .word 0
     temp: .word 0
   
   end:
 }
 
-.macro _t2_initMapDefinitionOffsets(cfg, mapDefinitionPtr, width, temp) {
- // initialize mapDefinitionOffsets buffer
-  copy16  cfg.mapDefinitionOffsets : mapDefinitionPtr
-  set16(mapDefinitionPtr, 0)
+/* 
+ * initialize mapOffsetsLo and mapOffsetsHi buffers
+ *
+ * Mod: A, X, Y
+ */
+.macro _t2_initMapDefinitionOffsets(cfg, width, temp) {
+  copy8 #<cfg.mapDefinition : temp
+  copy8 #>cfg.mapDefinition : temp + 1
   copyFast(cfg.width, width, 1)
-  ldx     cfg.height
+  set8(width + 1, 0)
+  ldx cfg.height
+  ldy #0
 
   loop:
-    copy16  mapDefinitionPtr : temp
-    add16   temp : width
-    inc16   mapDefinitionPtr
-    inc16   mapDefinitionPtr
-    copy16  temp : mapDefinitionPtr
+    lda temp
+    sta cfg.mapOffsetsLo, y
+    lda temp + 1
+    sta cfg.mapOffsetsHi, y
+    add16 width : temp
+    iny
     dex
   bne loop
 }

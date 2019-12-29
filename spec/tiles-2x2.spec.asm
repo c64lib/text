@@ -9,17 +9,19 @@ sfspec: init_spec()
     // given
     lda #40
     sta mapWidth
-    lda #2
+    lda #3
     sta mapHeight
     // when
     jsr _t2_initMapDefinitionOffsets
     // then
-    assert_equal mapDefinitionOffsets : #0 
-    assert_equal mapDefinitionOffsets + 1 : #0 
-    assert_equal mapDefinitionOffsets + 2 : #40 
-    assert_equal mapDefinitionOffsets + 3 : #0 
-    assert_equal mapDefinitionOffsets + 4 : #80 
-    assert_equal mapDefinitionOffsets + 5 : #0 
+    assert_equal mapOffsetsLo : #<mapDefinition
+    assert_equal mapOffsetsHi : #>mapDefinition
+    assert_equal mapOffsetsLo + 1 : #(<mapDefinition + 40)
+    assert_equal mapOffsetsHi + 1 : #(>mapDefinition + 0) 
+    assert_equal mapOffsetsLo + 2 : #(<mapDefinition + 80)
+    assert_equal mapOffsetsHi + 2 : #(>mapDefinition + 0)
+    
+    _print_int8 mapOffsetsHi + 0
   }
 
 finish_spec()
@@ -27,12 +29,15 @@ finish_spec()
 * = * "Data"
 x: .word 0
 y: .word 0
-mapDefinitionPtr: .word 0
 width: .word 0
 temp: .word 0
-mapDefinitionOffsets: .fill 512, 0
+mapOffsetsLo: .fill 256, 0
+mapOffsetsHi: .fill 256, 0
+mapDefinition: .fill 400, 0
 mapWidth: .byte 0
 mapHeight: .byte 0
+
+.print toHexString(mapDefinition)
 
 .namespace c64lib {
   .var @cfg = Tile2Config()
@@ -42,9 +47,11 @@ mapHeight: .byte 0
   .eval @cfg.endRow = 22
   .eval @cfg.x = x
   .eval @cfg.y = y
-  .eval @cfg.mapDefinitionOffsets = mapDefinitionOffsets
+  .eval @cfg.mapDefinition = mapDefinition
+  .eval @cfg.mapOffsetsLo = mapOffsetsLo
+  .eval @cfg.mapOffsetsHi = mapOffsetsHi
   .eval @cfg.width = mapWidth
   .eval @cfg.height = mapHeight
 }
 
-_t2_initMapDefinitionOffsets:      .namespace c64lib { _t2_initMapDefinitionOffsets(@cfg, mapDefinitionPtr, width, temp); rts }
+_t2_initMapDefinitionOffsets:      .namespace c64lib { _t2_initMapDefinitionOffsets(@cfg, width, temp); rts }
