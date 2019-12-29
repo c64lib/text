@@ -1,4 +1,7 @@
 #import "tiles-common.asm" 
+#import "common/lib/math.asm"
+#import "common/lib/mem.asm"
+
 #importonce 
 .filenamespace c64lib 
 
@@ -16,6 +19,10 @@
   page0,
   // page number (0..15) of page 1 (1024 bytes) for double buffering
   page1,
+  // address (8 or 16 bit) for X position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  x,
+  // address (8 or 16 bit) for Y position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  y,
   // address (8 or 16 bit) of playfield width in tiles (1 byte)
   width,
   // address (8 or 16 bit) of playfield height (1 byte)
@@ -26,15 +33,15 @@
   tileColors,
   // address (8 or 16 bit) for map definition (width * height) bytes
   mapDefinition,
-  // address (8 or 16 bit) for X position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
-  x,
-  // address (8 or 16 bit) for Y position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
-  y,
   // address (8 or 16 bit) for display phase counter
   phase,
   // ---- zero page mandatory variables
-  // general purpose zero page accumulator for indirect addressing
-  addrAccumulator
+  // general purpose zero page accumulators for indirect addressing, each accumulator takes two bytes from zero page
+  mapDefinitionPtr,
+  tileDefinitionPtr,
+  tileColorsPtr,
+  // ---- precalculated buffers
+  mapDefinitionOffsets  
 }
 
 .function toTileCommonConfig(tile2Config) {
@@ -48,3 +55,57 @@
   .eval tileCommonCfg.y = tile2Config.y
   .return tileCommonCfg
 }
+
+.macro tile2Init(cfg) {
+  _t2_validate(cfg)
+  
+  _t2_initMapDefinitionOffsets(cfg, mapDefinitionPtr, width, temp)
+ 
+  copyFast(cfg.tileDefinition, cfg.tileDefinitionPtr, 2)
+  copyFast(cfg.tileColors, cfg.tileColorsPtr, 2)
+
+  lda #$00
+  sta cfg.phase
+  
+  jmp end
+    // local variables
+    mapDefinitionPtr: .word 0
+    width: .word 0
+    temp: .word 0
+  
+  end:
+}
+
+.macro _t2_initMapDefinitionOffsets(cfg, mapDefinitionPtr, width, temp) {
+ // initialize mapDefinitionOffsets buffer
+  copy16  cfg.mapDefinitionOffsets : mapDefinitionPtr
+  set16(mapDefinitionPtr, 0)
+  copyFast(cfg.width, width, 1)
+  ldx     cfg.height
+
+  loop:
+    copy16  mapDefinitionPtr : temp
+    add16   temp : width
+    inc16   mapDefinitionPtr
+    inc16   mapDefinitionPtr
+    copy16  temp : mapDefinitionPtr
+    dex
+  bne loop
+}
+
+.macro _t2_decodeScreenRight(cfg, page, colorPage) {
+  .var tileDefinitionPtr = cfg.z0
+  .var tileColorsPtr = cfg.z1
+  .var mapDefinitionPtr = cfg.z2  
+  
+  .for (var y = cfg.startRow; y <= cfg.endRow; y++) {
+  }
+}
+
+.macro _t2_validate(tile2Config) {
+  .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
+  .assert "mapDefinitionPtr must be defined on zero page", tile2Config.mapDefinitionPtr < 256, true
+  .assert "tileDefinitionPtr must be defined on zero page", tile2Config.tileDefinitionPtr < 256, true
+  .assert "tileColorsPtr must be defined on zero page", tile2Config.tileColorsPtr < 256, true
+}
+

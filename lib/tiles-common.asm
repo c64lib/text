@@ -38,28 +38,7 @@
 
 }
 
-// ==== Public hosted subroutines ====
-
-.macro tile2Init(cfg) {
-  _t2_validate(cfg)
-  lda #$00
-  sta cfg.phase
-}
-
-.macro tile2Draw(cfg) {
-  _t2_validate(cfg)
-}
-
-.macro tile2Animate(cfg) {
-  _t2_validate(cfg)
-}
-
 // = other stuff =
-
-.macro _t2_validate(tile2Config) {
-  .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
-  .assert "addrAccumulator must be defined on zero page", tile2Config.addrAccumulator < 256, true
-}
 
 .function _t2_screenAddress(cfg, page) {
   .return (cfg.bank*16 + _t2_pageToPageNumber(cfg, page)) * 1024
