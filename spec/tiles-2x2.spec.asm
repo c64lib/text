@@ -16,12 +16,10 @@ sfspec: init_spec()
     // then
     assert_equal mapOffsetsLo : #<mapDefinition
     assert_equal mapOffsetsHi : #>mapDefinition
-    assert_equal mapOffsetsLo + 1 : #(<mapDefinition + 40)
-    assert_equal mapOffsetsHi + 1 : #(>mapDefinition + 0) 
-    assert_equal mapOffsetsLo + 2 : #(<mapDefinition + 80)
-    assert_equal mapOffsetsHi + 2 : #(>mapDefinition + 0)
-    
-    _print_int8 mapOffsetsHi + 0
+    assert_equal mapOffsetsLo + 1 : #<(mapDefinition + 40)
+    assert_equal mapOffsetsHi + 1 : #>(mapDefinition + 40) 
+    assert_equal mapOffsetsLo + 2 : #<(mapDefinition + 80)
+    assert_equal mapOffsetsHi + 2 : #>(mapDefinition + 80)
   }
 
 finish_spec()
@@ -37,7 +35,7 @@ mapDefinition: .fill 400, 0
 mapWidth: .byte 0
 mapHeight: .byte 0
 
-.print toHexString(mapDefinition)
+.print "mapDefinition=$" + toHexString(mapDefinition, 4)
 
 .namespace c64lib {
   .var @cfg = Tile2Config()

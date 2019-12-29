@@ -85,10 +85,11 @@
  * Mod: A, X, Y
  */
 .macro _t2_initMapDefinitionOffsets(cfg, width, temp) {
+  cld
   copy8 #<cfg.mapDefinition : temp
   copy8 #>cfg.mapDefinition : temp + 1
   copyFast(cfg.width, width, 1)
-  set8(width + 1, 0)
+  set8(0, width + 1)
   ldx cfg.height
   ldy #0
 
