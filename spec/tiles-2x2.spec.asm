@@ -5,7 +5,7 @@
 sfspec: init_spec()
   describe("_t2_initMapDefinitionOffsets")
   
-  it("a [40,2] map sets three offsets"); {
+  it("a [40,3] map sets three offsets"); {
     // given
     lda #40
     sta mapWidth

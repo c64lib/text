@@ -65,9 +65,6 @@
   
   _t2_initMapDefinitionOffsets(cfg, width, temp)
  
-  copyFast(cfg.tileDefinition, cfg.tileDefinitionPtr, 2)
-  copyFast(cfg.tileColors, cfg.tileColorsPtr, 2)
-
   lda #$00
   sta cfg.phase
   
@@ -88,8 +85,8 @@
   cld
   copy8 #<cfg.mapDefinition : temp
   copy8 #>cfg.mapDefinition : temp + 1
-  copyFast(cfg.width, width, 1)
-  set8(0, width + 1)
+  copy8 cfg.width : width
+  set8 #0 : width + 1
   ldx cfg.height
   ldy #0
 
@@ -104,7 +101,7 @@
   bne loop
 }
 
-.macro _t2_decodeScreenRight(cfg, page, colorPage) {
+.macro _t2_decodeScreenRight(cfg, page) {
   .var tileDefinitionPtr = cfg.z0
   .var tileColorsPtr = cfg.z1
   .var mapDefinitionPtr = cfg.z2  
@@ -113,10 +110,13 @@
   }
 }
 
+.macro _t2_decodeColorRight(cfg, colorPage) {
+}
+
 .macro _t2_validate(tile2Config) {
   .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
-  .assert "mapDefinitionPtr must be defined on zero page", tile2Config.mapDefinitionPtr < 256, true
-  .assert "tileDefinitionPtr must be defined on zero page", tile2Config.tileDefinitionPtr < 256, true
-  .assert "tileColorsPtr must be defined on zero page", tile2Config.tileColorsPtr < 256, true
+  .assert "z0 must be defined on zero page", tile2Config.z0 < 254, true
+  .assert "z1 must be defined on zero page", tile2Config.z1 < 254, true
+  .assert "z2 must be defined on zero page", tile2Config.z2 < 254, true
 }
 
