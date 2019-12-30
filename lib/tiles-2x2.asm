@@ -19,9 +19,9 @@
   page0,
   // page number (0..15) of page 1 (1024 bytes) for double buffering
   page1,
-  // address (8 or 16 bit) for X position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  // address (8 or 16 bit) for X position of top left corner (2b), 1st byte - sub tile position, 2nd byte - tile position
   x,
-  // address (8 or 16 bit) for Y position of top left corner (2b), 1st byte - tile position, 2nd byte - sub tile position
+  // address (8 or 16 bit) for Y position of top left corner (2b), 1st byte - sub tile position, 2nd byte - tile position
   y,
   // address (8 or 16 bit) of playfield width in tiles (1 byte)
   width,
@@ -101,13 +101,65 @@
   bne loop
 }
 
+/*
+ * Decode rightmost column of the playfield into given screen page.
+ *
+ * Mod: A, X, Y, z0
+ */
 .macro _t2_decodeScreenRight(cfg, page) {
-  .var mapOffsetsLo = cfg.z0
-  .var mapOffsetsHi = cfg.z1
-  .var tileDefinitionLo = cfg.z2
-  .var tileDefinitionHi = cfg.z3
-  
-  .for (var y = cfg.startRow; y <= cfg.endRow; y++) {
+  .var mapPtr = cfg.z0
+
+  lda cfg.x    
+  clc
+  adc #39
+  tay
+  lda cfg.y
+  and #%00000001
+  beq yOdd
+    ldx cfg.y
+    lda cfg.mapOffsetLo,x
+    sta mapPtr
+    lda cfg.mapOffsetHi,x
+    sta mapPtr + 1
+    lda (mapPtr),y // A contains tile number
+    tax 
+    lda cfg.x
+    and #%00000001
+    bne xEven
+      lda cfg.tileDefinition + 512,x
+      sta page + 39
+      jmp done
+    xEven:
+      lda cfg.tileDefinition + 768,x    
+      sta page + 39
+    done: 
+  yOdd:
+  .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
+    ldx cfg.y
+    lda cfg.mapOffsetLo + y - cfg.startRow,x
+    sta mapPtr
+    lda cfg.mapOffsetHi + y - cfg.startRow,x
+    sta mapPtr + 1
+    lda (mapPtr),y // A contains tile number
+    tax 
+    lda cfg.x
+    and #%00000001
+    bne xEven
+      lda cfg.tileDefinition,x
+      sta page + (y*40) + 39
+      .if (y + 1 <= cfg.endRow) {
+        lda cfg.tileDefinition + 512,x
+        sta page + ((y + 1)*40) + 39
+      }
+      jmp done
+    xEven:
+      lda cfg.tileDefinition + 256,x
+      sta page + (y*40) + 39
+      .if(y + 1 <= cfg.endRow) {
+        lda cfg.tileDefinition + 768,x    
+        sta page + ((y + 1)*40) + 39
+      }
+    done: 
   }
 }
 
