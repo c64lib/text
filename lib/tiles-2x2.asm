@@ -64,7 +64,7 @@
 .macro tile2Init(cfg) {
   _t2_validate(cfg)
   
-  _t2_initMapDefinitionOffsets(cfg, width, temp)
+  _t2_initMapOffsets(cfg, width, temp)
  
   lda #$00
   sta cfg.phase
@@ -82,7 +82,7 @@
  *
  * Mod: A, X, Y
  */
-.macro _t2_initMapDefinitionOffsets(cfg, width, temp) {
+.macro _t2_initMapOffsets(cfg, width, temp) {
   cld
   copy16 cfg.mapDefinitionPtr : temp
   copy8 cfg.width : width
