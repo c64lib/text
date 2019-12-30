@@ -8,7 +8,3 @@ https://c64lib.github.io/docu/libs/text
 ## Travis CI (deprecated)
 * master: [![Build Status](https://travis-ci.org/c64lib/text.svg?branch=master)](https://travis-ci.org/c64lib/text)
 * develop: [![Build Status](https://travis-ci.org/c64lib/text.svg?branch=develop)](https://travis-ci.org/c64lib/text)
-## Change log
-### 0.2.0
-* 2x2 char mode scrolling routines
-
