@@ -117,9 +117,9 @@
   and #%00000001
   beq yEven
     ldx cfg.y
-    lda cfg.mapOffsetLo,x
+    lda cfg.mapOffsetsLo,x
     sta mapPtr
-    lda cfg.mapOffsetHi,x
+    lda cfg.mapOffsetsHi,x
     sta mapPtr + 1
     lda (mapPtr),y // A contains tile number
     tax 
@@ -136,9 +136,9 @@
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
     ldx cfg.y
-    lda cfg.mapOffsetLo + y - cfg.startRow,x
+    lda cfg.mapOffsetsLo + y - cfg.startRow,x
     sta mapPtr
-    lda cfg.mapOffsetHi + y - cfg.startRow,x
+    lda cfg.mapOffsetsHi + y - cfg.startRow,x
     sta mapPtr + 1
     lda (mapPtr),y // A contains tile number
     tax 
@@ -174,9 +174,9 @@
   and #%00000001
   beq yEven
     ldx cfg.y
-    lda cfg.mapOffsetLo,x
+    lda cfg.mapOffsetsLo,x
     sta mapPtr
-    lda cfg.mapOffsetHi,x
+    lda cfg.mapOffsetsHi,x
     sta mapPtr + 1
     lda (mapPtr),y // A contains tile number
     tax 
@@ -185,9 +185,9 @@
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
     ldx cfg.y
-    lda cfg.mapOffsetLo + y - cfg.startRow,x
+    lda cfg.mapOffsetsLo + y - cfg.startRow,x
     sta mapPtr
-    lda cfg.mapOffsetHi + y - cfg.startRow,x
+    lda cfg.mapOffsetsHi + y - cfg.startRow,x
     sta mapPtr + 1
     lda (mapPtr),y // A contains tile number
     tax 
