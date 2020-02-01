@@ -115,7 +115,7 @@
   tay
   lda cfg.y
   and #%00000001
-  beq yOdd
+  beq yEven
     ldx cfg.y
     lda cfg.mapOffsetLo,x
     sta mapPtr
@@ -125,15 +125,15 @@
     tax 
     lda cfg.x
     and #%00000001
-    bne xEven
+    bne xOdd
       lda cfg.tileDefinition + 512,x
       sta page + 39
       jmp done
-    xEven:
+    xOdd:
       lda cfg.tileDefinition + 768,x    
       sta page + 39
     done: 
-  yOdd:
+  yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
     ldx cfg.y
     lda cfg.mapOffsetLo + y - cfg.startRow,x
@@ -144,7 +144,7 @@
     tax 
     lda cfg.x
     and #%00000001
-    bne xEven
+    bne xOdd
       lda cfg.tileDefinition,x
       sta page + (y*40) + 39
       .if (y + 1 <= cfg.endRow) {
@@ -152,7 +152,7 @@
         sta page + ((y + 1)*40) + 39
       }
       jmp done
-    xEven:
+    xOdd:
       lda cfg.tileDefinition + 256,x
       sta page + (y*40) + 39
       .if(y + 1 <= cfg.endRow) {
@@ -164,6 +164,39 @@
 }
 
 .macro _t2_decodeColorRight(cfg, colorPage) {
+  .var mapPtr = cfg.z0
+
+  lda cfg.x    
+  clc
+  adc #39
+  tay
+  lda cfg.y
+  and #%00000001
+  beq yEven
+    ldx cfg.y
+    lda cfg.mapOffsetLo,x
+    sta mapPtr
+    lda cfg.mapOffsetHi,x
+    sta mapPtr + 1
+    lda (mapPtr),y // A contains tile number
+    tax 
+    lda cfg.tileColors,x
+    sta colorPage
+  yEven:
+  .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
+    ldx cfg.y
+    lda cfg.mapOffsetLo + y - cfg.startRow,x
+    sta mapPtr
+    lda cfg.mapOffsetHi + y - cfg.startRow,x
+    sta mapPtr + 1
+    lda (mapPtr),y // A contains tile number
+    tax 
+    lda cfg.tileColors,x
+    sta colorPage + (y*40) + 39
+    .if (y + 1 <= cfg.endRow) {
+      sta colorPage + ((y + 1)*40) + 39
+    }
+  }
 }
 
 .macro _t2_validate(tile2Config) {

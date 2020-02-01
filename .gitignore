@@ -1,5 +1,7 @@
 *.prg
 *.sym
+*.vs
+*.specOut
 
 # gradle
 .gradle
