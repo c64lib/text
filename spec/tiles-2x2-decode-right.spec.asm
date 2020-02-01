@@ -19,7 +19,10 @@ mapOffsetsLo: .fill 256, 0
 mapOffsetsHi: .fill 256, 0
 mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
 mapDefinition: .fill 400, 0
-tileDefinition: .fill 1024, 0
+tileDefinition0: .fill 256, 0
+tileDefinition1: .fill 256, 0
+tileDefinition2: .fill 256, 0
+tileDefinition3: .fill 256, 0
 tileColors: .fill 256, 0
 mapWidth: .byte 0
 mapHeight: .byte 0
@@ -43,7 +46,7 @@ testScreenData: {
   .eval @cfg.mapDefinitionPtr = mapDefinitionPtr
   .eval @cfg.mapOffsetsLo = mapOffsetsLo
   .eval @cfg.mapOffsetsHi = mapOffsetsHi
-  .eval @cfg.tileDefinition = tileDefinition
+  .eval @cfg.tileDefinition = tileDefinition0
   .eval @cfg.tileColors = tileColors
   .eval @cfg.width = mapWidth
   .eval @cfg.height = mapHeight
