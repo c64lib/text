@@ -163,6 +163,11 @@
   }
 }
 
+/*
+ * Decode rightmost column of the color data.
+ *
+ * Mod: A, X, Y, z0 
+ */
 .macro _t2_decodeColorRight(cfg, colorPage) {
   .var mapPtr = cfg.z0
 

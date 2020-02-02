@@ -2,6 +2,9 @@
 *.sym
 *.vs
 *.specOut
+.asminfo.txt
+.source.txt
+*.dbg
 
 # gradle
 .gradle
