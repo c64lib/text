@@ -155,7 +155,7 @@
     beq xEven
       lda cfg.tileDefinition,y
       sta page + (y*40) + 39
-      .if (y + 1 < cfg.endRow) {
+      .if (y + 1 <= cfg.endRow) {
         lda cfg.tileDefinition + 512,y
         sta page + ((y + 1)*40) + 39
       }
@@ -163,7 +163,7 @@
     xEven:
       lda cfg.tileDefinition + 256,y
       sta page + (y*40) + 39
-      .if(y + 1 < cfg.endRow) {
+      .if(y + 1 <= cfg.endRow) {
         lda cfg.tileDefinition + 768,y
         sta page + ((y + 1)*40) + 39
       }
@@ -174,37 +174,30 @@
 /*
  * Decode rightmost column of the color data.
  *
- * Mod: A, X, Y, z0 
+ * Mod: A, X, Y
  */
 .macro _t2_decodeColorRight(cfg, colorPage) {
-  .var mapPtr = cfg.z0
 
-  lda cfg.x    
+  cld
+  lda cfg.x  + 1   
   clc
-  adc #39
-  tay
+  adc #19
+  tax
+
   lda cfg.y
-  and #%00000001
+  and #%10000000
   beq yEven
-    ldx cfg.y
-    lda cfg.mapOffsetsLo,x
-    sta mapPtr
-    lda cfg.mapOffsetsHi,x
-    sta mapPtr + 1
-    lda (mapPtr),y // A contains tile number
-    tax 
-    lda cfg.tileColors,x
-    sta colorPage
+    _t2_decodeTile(cfg, 0)
+    tay
+
+    lda cfg.tileColors,y
+    sta colorPage + 39
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
-    ldx cfg.y
-    lda cfg.mapOffsetsLo + y - cfg.startRow,x
-    sta mapPtr
-    lda cfg.mapOffsetsHi + y - cfg.startRow,x
-    sta mapPtr + 1
-    lda (mapPtr),y // A contains tile number
-    tax 
-    lda cfg.tileColors,x
+    _t2_decodeTile(cfg, (y - cfg.startRow)/2)
+    tay
+
+    lda cfg.tileColors,y
     sta colorPage + (y*40) + 39
     .if (y + 1 <= cfg.endRow) {
       sta colorPage + ((y + 1)*40) + 39
