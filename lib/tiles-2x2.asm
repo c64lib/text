@@ -102,61 +102,69 @@
 }
 
 /*
+ * In:  X - x-offset of the viewport
+ * Out: A - tile number (code)
+ * Mod: A, Y
+ */
+.macro _t2_decodeTile(cfg, lineNo) {
+    ldy cfg.y + 1                   // "y" contains a y-offset of the viewport
+    lda cfg.mapOffsetsLo + lineNo,y // 
+    sta mapPtr
+    lda cfg.mapOffsetsHi + lineNo,y
+    sta mapPtr + 1
+    lda mapPtr:$FFFF,x
+}
+
+/*
  * Decode rightmost column of the playfield into given screen page.
  *
- * Mod: A, X, Y, z0
+ * Mod: A, X, Y
  */
 .macro _t2_decodeScreenRight(cfg, page) {
-  .var mapPtr = cfg.z0
 
-  lda cfg.x    
+  cld
+  lda cfg.x + 1                       // load (tile) X position
   clc
-  adc #39
-  tay
-  lda cfg.y
-  and #%00000001
+  adc #19                             // we will draw last column
+  tax                                 // X contains a x coodinate of the map tile
+
+  lda cfg.y                           // load subtile Y position
+  and #%10000000
   beq yEven
-    ldx cfg.y
-    lda cfg.mapOffsetsLo,x
-    sta mapPtr
-    lda cfg.mapOffsetsHi,x
-    sta mapPtr + 1
-    lda (mapPtr),y // A contains tile number
-    tax 
+                                      // Y position is odd
+    _t2_decodeTile(cfg, 0)
+    tay                               // X contains tile number
+   
     lda cfg.x
-    and #%00000001
+    and #%10000000
     bne xOdd
-      lda cfg.tileDefinition + 512,x
+      lda cfg.tileDefinition + 512,y
       sta page + 39
       jmp done
     xOdd:
-      lda cfg.tileDefinition + 768,x    
+      lda cfg.tileDefinition + 768,y
       sta page + 39
     done: 
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
-    ldx cfg.y
-    lda cfg.mapOffsetsLo + y - cfg.startRow,x
-    sta mapPtr
-    lda cfg.mapOffsetsHi + y - cfg.startRow,x
-    sta mapPtr + 1
-    lda (mapPtr),y // A contains tile number
-    tax 
+    _t2_decodeTile(cfg, (y - cfg.startRow)/2)
+    tay
+    
     lda cfg.x
-    and #%00000001
-    bne xOdd
-      lda cfg.tileDefinition,x
+    and #%10000000
+    beq xEven
+      lda cfg.tileDefinition,y
       sta page + (y*40) + 39
       .if (y + 1 <= cfg.endRow) {
-        lda cfg.tileDefinition + 512,x
+        lda cfg.tileDefinition + 512,y
         sta page + ((y + 1)*40) + 39
       }
       jmp done
-    xOdd:
-      lda cfg.tileDefinition + 256,x
+    xEven:
+      lda cfg.tileDefinition + 256,y
       sta page + (y*40) + 39
       .if(y + 1 <= cfg.endRow) {
-        lda cfg.tileDefinition + 768,x    
+        lda cfg.tileDefinition + 768,y
         sta page + ((y + 1)*40) + 39
       }
     done: 

@@ -5,22 +5,29 @@
 
 sfspec: init_spec()
 
-  jsr _t2_initMapOffsets
-
   describe("_t2_decodeScreenRight")
   
   it("a [40,3] map sets three offsets"); {
     beforeTest()
 
+    jsr _t2_initMapOffsets
+
     jsr _t2_decodeScreenRight
-    assert_bytes_equal 80 - 1: testScreenData: expectedScreen0
+
+    _print_int8 testScreenData + 79 - 40
+    _print_int8 testScreenData + 79
+    _print_int8 testScreenData + 40 + 79
+    _print_int8 testScreenData + 80 + 79
+    _print_int8 testScreenData + 120 + 79
+
+    assert_bytes_equal 80: testScreenData: expectedScreen0
   }
    
 finish_spec()
 
 * = * "Data"
-x: .word 0
-y: .word 0
+x: .byte 0, 0
+y: .byte 0, 0
 width: .word 0
 temp: .word 0
 mapOffsetsLo: .fill 256, 0
@@ -28,22 +35,22 @@ mapOffsetsHi: .fill 256, 0
 mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
 mapDefinition:
   //    "00000111112222233333344"
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
-  .fill 19,0; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
 
-tileDefinition0: .text "a1q7"; .fill 252, 0
-tileDefinition1: .text "b2w8"; .fill 252, 0
-tileDefinition2: .text "c3e9"; .fill 252, 0
-tileDefinition3: .text "d4r0"; .fill 252, 0
+tileDefinition0: .text "*1q75"; .fill 251, 0 // +0
+tileDefinition1: .text ",2w86"; .fill 251, 0 // +256
+tileDefinition2: .text "+3e96"; .fill 251, 0 // +512
+tileDefinition3: .text "-4r05"; .fill 251, 0 // +768
 tileColors: .byte 0,1,2,3; .fill 252, 0
 mapWidth: .byte 22
 mapHeight: .byte 11
@@ -55,6 +62,8 @@ testScreenData: {
 }
 
 .print "mapDefinition=$" + toHexString(mapDefinition, 4)
+.print "mapDefinitionLO=" + <mapDefinition
+.print "mapDefinitionHI=" + >mapDefinition
 
 .namespace c64lib {
   .var @cfg = Tile2Config()
