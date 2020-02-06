@@ -1,28 +1,36 @@
 #import "../lib/tiles-2x2-global.asm"
 #import "64spec/lib/64spec.asm"
-#import "common/lib/mem.asm"
+#import "common/lib/mem-global.asm"
 #import "common/lib/invoke-global.asm"
 
 sfspec: init_spec()
 
   describe("_t2_decodeScreenRight")
-  
-  it("a [40,3] map sets three offsets"); {
+
+  it("even row for 0,0"); {
     beforeTest()
-
+    // given
     jsr _t2_initMapOffsets
-
+    // when
     jsr _t2_decodeScreenRight
-
-    _print_int8 testScreenData + 79 - 40
-    _print_int8 testScreenData + 79
-    _print_int8 testScreenData + 40 + 79
-    _print_int8 testScreenData + 80 + 79
-    _print_int8 testScreenData + 120 + 79
-
-    assert_bytes_equal 1000: testScreenData: expectedScreen0
+    // then
+    assert_bytes_equal 1000: testScreenData: expectedScreenEven
   }
-   
+
+  it("odd row for 0.5,0"); {
+    beforeTest()
+    //given
+    c64lib_set16($0080, x)
+    c64lib_set16($0000, y)
+    jsr _t2_initMapOffsets
+    // when
+    jsr _t2_decodeScreenRight
+    // then
+    _print_int8 testScreenData + 79
+    assert_bytes_equal 1000: testScreenData: expectedScreenOdd
+  }
+
+
 finish_spec()
 
 * = * "Data"
@@ -83,7 +91,7 @@ testScreenData: {
   .eval @cfg.z0 = z0
 }
 
-expectedScreen0: {
+expectedScreenEven: {
   //    "0000011111222223333344444555556666677777"
   .text "........................................" 
   .text ".......................................2" 
@@ -107,6 +115,33 @@ expectedScreen0: {
   .text ".......................................2" 
   .text ".......................................4" 
   .text ".......................................2" 
+  .text "........................................" 
+  .text "........................................" 
+}
+expectedScreenOdd: {
+  //    "0000011111222223333344444555556666677777"
+  .text "........................................" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................q" 
+  .text ".......................................e" 
+  .text ".......................................7" 
+  .text ".......................................9" 
+  .text ".......................................*" 
+  .text ".......................................+" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
+  .text ".......................................3" 
+  .text ".......................................1" 
   .text "........................................" 
   .text "........................................" 
 }
@@ -144,6 +179,8 @@ _t2_decodeScreenRight:  .namespace c64lib { _t2_decodeScreenRight(@cfg, testScre
 _t2_decodeColorRight:   .namespace c64lib { _t2_decodeColorRight(@cfg, testScreenData); rts }
 
 .macro beforeTest() {
+  c64lib_set16($0000, x)
+  c64lib_set16($0000, y)
   c64lib_pushParamW(testScreenData)
   lda #'.'
   jsr fillScreen
