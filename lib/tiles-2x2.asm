@@ -155,7 +155,7 @@
     beq xEven
       lda cfg.tileDefinition,y
       sta page + (y*40) + 39
-      .if (y + 1 <= cfg.endRow) {
+      .if (y + 1 < cfg.endRow) {
         lda cfg.tileDefinition + 512,y
         sta page + ((y + 1)*40) + 39
       }
@@ -163,7 +163,7 @@
     xEven:
       lda cfg.tileDefinition + 256,y
       sta page + (y*40) + 39
-      .if(y + 1 <= cfg.endRow) {
+      .if(y + 1 < cfg.endRow) {
         lda cfg.tileDefinition + 768,y
         sta page + ((y + 1)*40) + 39
       }

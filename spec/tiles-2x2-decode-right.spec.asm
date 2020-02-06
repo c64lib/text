@@ -20,7 +20,7 @@ sfspec: init_spec()
     _print_int8 testScreenData + 80 + 79
     _print_int8 testScreenData + 120 + 79
 
-    assert_bytes_equal 80: testScreenData: expectedScreen0
+    assert_bytes_equal 1000: testScreenData: expectedScreen0
   }
    
 finish_spec()
