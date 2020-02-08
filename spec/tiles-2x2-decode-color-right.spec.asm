@@ -7,21 +7,51 @@ sfspec: init_spec()
 
   describe("_t2_decodeColorRight")
 
-  it("even row for 0,0"); {
+  it("even column for 0,0"); {
     beforeTest()
     // given
     jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeColorRight
     // then
-    _print_int8 testScreenData + 1000-40-1
-    _print_int8 testScreenData + 1000-40
-    _print_int8 testScreenData + 1000-40+1
-    _print_int8 testScreenData + 1000-40+2
-    _print_int8 testScreenData + 1000-40+3
-    assert_bytes_equal 1000: testScreenData: expectedColorRamEven
+    assert_bytes_equal 1000: testScreenData: expectedColorRam1
   }
 
+  it("odd column for 0.5,0"); {
+    beforeTest()
+    // given
+    c64lib_set16($0080, x)
+    c64lib_set16($0000, y)
+    jsr _t2_initMapOffsets
+    // when
+    jsr _t2_decodeColorRight
+    // then
+    assert_bytes_equal 1000: testScreenData: expectedColorRam1
+  }
+
+  it("even column for 1,0"); {
+    beforeTest()
+    // given
+    c64lib_set16($0180, x)
+    c64lib_set16($0000, y)
+    jsr _t2_initMapOffsets
+    // when
+    jsr _t2_decodeColorRight
+    // then
+    assert_bytes_equal 1000: testScreenData: expectedColorRam2
+  }
+
+  it("odd column for 1.5,0"); {
+    beforeTest()
+    // given
+    c64lib_set16($0180, x)
+    c64lib_set16($0000, y)
+    jsr _t2_initMapOffsets
+    // when
+    jsr _t2_decodeColorRight
+    // then
+    assert_bytes_equal 1000: testScreenData: expectedColorRam2
+  }
 
 finish_spec()
 
@@ -83,7 +113,7 @@ testScreenData: {
   .eval @cfg.z0 = z0
 }
 
-expectedColorRamEven: {
+expectedColorRam1: {
   //    "0000011111222223333344444555556666677777"
   .text "........................................" 
   .text "......................................."; .byte 11 
@@ -108,6 +138,35 @@ expectedColorRamEven: {
   .text "......................................."; .byte 11
   .text "......................................."; .byte 11
   .text "......................................."; .byte 11 
+  .text "........................................" 
+  .text "........................................" 
+}
+
+expectedColorRam2: {
+  //    "0000011111222223333344444555556666677777"
+  .text "........................................" 
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12 
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 11
+  .text "......................................."; .byte 11
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12 
   .text "........................................" 
   .text "........................................" 
 }
