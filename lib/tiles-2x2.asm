@@ -1,4 +1,6 @@
 #import "tiles-common.asm" 
+#import "tiles-screen-shift.asm"
+#import "tiles-color-ram-shift.asm"
 #import "common/lib/math.asm"
 #import "common/lib/mem.asm"
 
@@ -64,17 +66,11 @@
 .macro tile2Init(cfg) {
   _t2_validate(cfg)
   
-  _t2_initMapOffsets(cfg, width, temp)
+  _t2_initMapOffsets(cfg)
  
   lda #$00
   sta cfg.phase
   
-  jmp end
-    // local variables
-    width: .word 0
-    temp: .word 0
-  
-  end:
 }
 
 /* 
@@ -82,7 +78,7 @@
  *
  * Mod: A, X, Y
  */
-.macro _t2_initMapOffsets(cfg, width, temp) {
+.macro _t2_initMapOffsets(cfg) {
   cld
   copy16 cfg.mapDefinitionPtr : temp
   copy8 cfg.width : width
@@ -99,6 +95,11 @@
     iny
     dex
   bne loop
+  jmp end
+    // local variables
+    width: .word 0
+    temp: .word 0
+  end:
 }
 
 /*

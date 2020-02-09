@@ -10,7 +10,6 @@ sfspec: init_spec()
   it("even row for 0,0"); {
     beforeTest()
     // given
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeScreenRight
     // then
@@ -22,7 +21,6 @@ sfspec: init_spec()
     //given
     c64lib_set16($0080, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeScreenRight
     // then
@@ -34,7 +32,6 @@ sfspec: init_spec()
     //given
     c64lib_set16($0100, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeScreenRight
     // then
@@ -46,7 +43,6 @@ sfspec: init_spec()
     //given
     c64lib_set16($0180, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeScreenRight
     // then
@@ -230,7 +226,7 @@ expectedScreenOdd1: {
   .text "........................................" 
 }
 
-_t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg, width, temp); rts }
+_t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg); rts }
 _t2_decodeScreenRight:  .namespace c64lib { _t2_decodeScreenRight(@cfg, testScreenData); rts }
 
 .macro beforeTest() {
@@ -239,6 +235,7 @@ _t2_decodeScreenRight:  .namespace c64lib { _t2_decodeScreenRight(@cfg, testScre
   c64lib_pushParamW(testScreenData)
   lda #'.'
   jsr fillScreen
+  jsr _t2_initMapOffsets
 }
 
 fillScreen:

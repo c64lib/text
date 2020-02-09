@@ -56,4 +56,4 @@ z1: .byte 253
   .eval @cfg.z0 = z0
 }
 
-_t2_initMapOffsets:      .namespace c64lib { _t2_initMapOffsets(@cfg, width, temp); rts }
+_t2_initMapOffsets:      .namespace c64lib { _t2_initMapOffsets(@cfg); rts }

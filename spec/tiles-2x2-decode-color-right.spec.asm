@@ -10,7 +10,6 @@ sfspec: init_spec()
   it("even column for 0,0"); {
     beforeTest()
     // given
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeColorRight
     // then
@@ -22,7 +21,6 @@ sfspec: init_spec()
     // given
     c64lib_set16($0080, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeColorRight
     // then
@@ -34,7 +32,6 @@ sfspec: init_spec()
     // given
     c64lib_set16($0180, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeColorRight
     // then
@@ -46,7 +43,6 @@ sfspec: init_spec()
     // given
     c64lib_set16($0180, x)
     c64lib_set16($0000, y)
-    jsr _t2_initMapOffsets
     // when
     jsr _t2_decodeColorRight
     // then
@@ -54,6 +50,15 @@ sfspec: init_spec()
   }
 
 finish_spec()
+
+.macro beforeTest() {
+  c64lib_set16($0000, x)
+  c64lib_set16($0000, y)
+  c64lib_pushParamW(testScreenData)
+  lda #'.'
+  jsr fillScreen
+  jsr _t2_initMapOffsets
+}
 
 * = * "Data"
 x: .byte 0, 0
@@ -172,16 +177,8 @@ expectedColorRam2: {
 }
 
 
-_t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg, width, temp); rts }
+_t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg); rts }
 _t2_decodeColorRight:   .namespace c64lib { _t2_decodeColorRight(@cfg, testScreenData); rts }
-
-.macro beforeTest() {
-  c64lib_set16($0000, x)
-  c64lib_set16($0000, y)
-  c64lib_pushParamW(testScreenData)
-  lda #'.'
-  jsr fillScreen
-}
 
 fillScreen:
               #import "common/lib/sub/fill-screen.asm"
