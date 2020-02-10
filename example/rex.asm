@@ -4,8 +4,8 @@
 #import "chipset/lib/mos6510.asm"
 #import "chipset/lib/vic2.asm"
 #import "chipset/lib/cia.asm"
-#import "text/lib/text.asm"
 #import "copper64/lib/copper64.asm"
+#import "../lib/text.asm"
 
 .filenamespace c64lib
 
@@ -16,16 +16,17 @@
 
 /*
  * VIC memory layout (16kb):
- * $0000 - SCREEN_PAGE_0
- * $0100 - SCREEN_PAGE_1
- * $0200 - CHARGEN
- * $0400 - sprite data
+ * $0000 ($C000-$C3FF) - SCREEN_PAGE_0
+ * $0400 ($C400-$C7FF) - SCREEN_PAGE_1
+ * $0800 ($C800-$CFFF) - CHARGEN
+ *       ($D000-$DFFF) - I/O space
+ * $2000 ($E000)       - sprite data
  */
 .label VIC_MEMORY_START = VIC_BANK * toBytes(16)
 .label SCREEN_PAGE_ADDR_0 = VIC_MEMORY_START + SCREEN_PAGE_0 * toBytes(1)
 .label SCREEN_PAGE_ADDR_1 = VIC_MEMORY_START + SCREEN_PAGE_1 * toBytes(1)
 .label CHARGEN_ADDR = VIC_MEMORY_START + CHARGEN * toBytes(2)
-.label SPRITE_ADDR = VIC_BANK * toBytes(4)
+.label SPRITE_ADDR = VIC_MEMORY_START + $2000
 
 .pc = $0801 "Basic Upstart"
 :BasicUpstart(start) // Basic start routine
@@ -35,9 +36,12 @@
 
 start:
   jsr configureC64
+  jsr prepareScreen
   jsr configureVic2
   jsr unpackData
   
+endless:
+  jmp endless
 
 // -------- Subroutines ----------
 configureC64: {
@@ -60,6 +64,18 @@ configureVic2: {
   rts
 }
 
+prepareScreen: {
+  pushParamW(SCREEN_PAGE_ADDR_0)
+  lda #32
+  jsr fillScreen
+
+  pushParamW(SCREEN_PAGE_ADDR_1)
+  lda #32
+  jsr fillScreen
+
+  rts
+}
+
 unpackData: {
   // copy chargen
   pushParamW(beginOfChargen)
@@ -71,10 +87,12 @@ unpackData: {
   pushParamW(SPRITE_ADDR)
   pushParamW(endOfSprites - beginOfSprites)
   jsr copyLargeMemForward
+  
   rts
 }
 
  #import "common/lib/sub/copy-large-mem-forward.asm"
+ #import "common/lib/sub/fill-screen.asm"
 
 
 // ------------------- DATA ---------------------------
@@ -131,11 +149,75 @@ endOfSprites:
 
 // -- chargen definition --
 beginOfChargen:
-  // 0-63 
+  // 0-63: letters, symbols, numbers
   #import "chipset/charsets/c64lib.asm"
-  // 64-
 
-  // 64
+  // 64-128: playfield graphics
+
+  // $40 64
+  ch("...##...")//1
+  ch("..#..#..")//2
+  ch(".##..##.")//3
+  ch("..#..#..")//4
+  ch(".##..###")//5
+  ch("..#.....")//6
+  ch(".##..###")//7
+  ch("..#..#..")//8
+  // $41 65
+  ch("........")//1
+  ch("..#.....")//2
+  ch(".#.#....")//3
+  ch(".#.##...")//4
+  ch("#..#....")//5
+  ch("..#.....")//6
+  ch("##......")//7
+  ch("........")//8
+  // $42 66
+  ch(".##..##.")//1
+  ch("..#..#..")//2
+  ch(".##..##.")//3
+  ch("..#..#..")//4
+  ch("###..###")//5
+  ch("..#..#..")//6
+  ch("..#..#..")//7
+  ch("........")//8
+  // $43 67
+  ch("........")//1
+  ch("........")//2
+  ch("........")//3
+  ch("........")//4
+  ch("########")//5
+  ch("........")//6
+  ch("........")//7
+  ch("........")//8
+  // $44 68
+  ch("........")//1
+  ch("........")//2
+  ch("........")//3
+  ch("........")//4
+  ch("########")//5
+  ch("...###..")//6
+  ch("..##....")//7
+  ch("..#.....")//8
+  // $45 69
+  ch("........")//1
+  ch("........")//2
+  ch("........")//3
+  ch("........")//4
+  ch("........")//5
+  ch("........")//6
+  ch("........")//7
+  ch("........")//8
+  // $46 70
+  ch("........")//1
+  ch("........")//2
+  ch("........")//3
+  ch("........")//4
+  ch("........")//5
+  ch("........")//6
+  ch("........")//7
+  ch("........")//8
+  // $47 71
   ch("........")//1
   ch("........")//2
   ch("........")//3
