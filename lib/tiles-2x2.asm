@@ -65,12 +65,7 @@
 
 .macro tile2Init(cfg) {
   _t2_validate(cfg)
-  
   _t2_initMapOffsets(cfg)
- 
-  lda #$00
-  sta cfg.phase
-  
 }
 
 /* 
@@ -208,9 +203,11 @@
 
 .macro _t2_validate(tile2Config) {
   .assert "startRow must be smaller than endRow", tile2Config.startRow < tile2Config.endRow, true
+  /*
   .assert "z0 must be defined on zero page", tile2Config.z0 < 254, true
   .assert "z1 must be defined on zero page", tile2Config.z1 < 254, true
   .assert "z2 must be defined on zero page", tile2Config.z2 < 254, true
   .assert "z3 must be defined on zero page", tile2Config.z3 < 254, true
+  */
 }
 
