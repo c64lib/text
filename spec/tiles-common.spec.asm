@@ -121,7 +121,7 @@ expectedScreenData_bottom: {
     .fill 40, i
   }
 }
-shiftScreenLeft:    .namespace c64lib { _t2_shiftScreenLeft(@cfg, 0); rts }
+shiftScreenLeft:    .namespace c64lib { _t2_shiftScreenLeft(@cfg, 0, 0); rts }
 shiftScreenRight:   .namespace c64lib { _t2_shiftScreenRight(@cfg, 0); rts }
 shiftScreenTop:     .namespace c64lib { _t2_shiftScreenTop(@cfg, 0); rts }
 shiftScreenBottom:  .namespace c64lib { _t2_shiftScreenBottom(@cfg, 0); rts }

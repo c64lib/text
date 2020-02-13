@@ -18,15 +18,16 @@
 .filenamespace c64lib
 
 // ==== Private stuff ====
-.macro _t2_shiftScreenLeft(cfg, page) {
+.macro _t2_shiftScreenLeft(cfg, pageFrom, pageTo) {
   // cost ???
   // size ???
-  .var screenAddress = _t2_screenAddress(cfg, page)
+  .var screenFromAddress = _t2_screenAddress(cfg, pageFrom)
+  .var screenToAddress = _t2_screenAddress(cfg, pageTo)
   ldx #0                              //(2)/2
   loop:
     .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
-      lda screenAddress + y*40 + 1, x //(4)/3
-      sta screenAddress + y*40, x     //(4)/3
+      lda screenFromAddress + y*40 + 1, x //(4)/3
+      sta screenToAddress + y*40, x     //(4)/3
     }
     inx                               //(2)/1
     cpx #39                           //(2)/2
