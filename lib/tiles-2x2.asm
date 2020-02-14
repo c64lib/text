@@ -118,6 +118,9 @@
  */
 .macro _t2_decodeScreenRight(cfg, page) {
 
+  .var pageAddress = _t2_screenAddress(cfg, page)
+
+
   cld
   lda cfg.x + 1                       // load (tile) X position
   clc
@@ -135,11 +138,11 @@
     and #%10000000
     bne xOdd
       lda cfg.tileDefinition + 512,y
-      sta page + 39
+      sta pageAddress + 39
       jmp done
     xOdd:
       lda cfg.tileDefinition + 768,y
-      sta page + 39
+      sta pageAddress + 39
     done: 
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
@@ -150,18 +153,18 @@
     and #%10000000
     beq xEven
       lda cfg.tileDefinition,y
-      sta page + (y*40) + 39
+      sta pageAddress + (y*40) + 39
       .if (y + 1 <= cfg.endRow) {
         lda cfg.tileDefinition + 512,y
-        sta page + ((y + 1)*40) + 39
+        sta pageAddress + ((y + 1)*40) + 39
       }
       jmp done
     xEven:
       lda cfg.tileDefinition + 256,y
-      sta page + (y*40) + 39
+      sta pageAddress + (y*40) + 39
       .if(y + 1 <= cfg.endRow) {
         lda cfg.tileDefinition + 768,y
-        sta page + ((y + 1)*40) + 39
+        sta pageAddress + ((y + 1)*40) + 39
       }
     done: 
   }

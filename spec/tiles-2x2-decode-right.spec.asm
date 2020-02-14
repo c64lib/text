@@ -60,6 +60,12 @@ temp: .word 0
 mapOffsetsLo: .fill 256, 0
 mapOffsetsHi: .fill 256, 0
 mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
+.align $400
+testScreenData: {
+  .fill 1024, 0
+}
+.print "tsd=" + testScreenData
+
 mapDefinition:
   //    "00000111112222233333344"
   .fill 19,4; .byte 1,2,3
@@ -84,10 +90,6 @@ mapHeight: .byte 11
 z0: .byte 251
 z1: .byte 253
 
-testScreenData: {
-  .fill 1000, 0
-}
-
 .print "mapDefinition=$" + toHexString(mapDefinition, 4)
 .print "mapDefinitionLO=" + <mapDefinition
 .print "mapDefinitionHI=" + >mapDefinition
@@ -95,7 +97,7 @@ testScreenData: {
 .namespace c64lib {
   .var @cfg = Tile2Config()
   .eval @cfg.bank = 0
-  .eval @cfg.page0 = 5120/1024
+  .eval @cfg.page0 = testScreenData/1024
   .eval @cfg.startRow = 1
   .eval @cfg.endRow = 22
   .eval @cfg.x = x
@@ -227,7 +229,7 @@ expectedScreenOdd1: {
 }
 
 _t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg); rts }
-_t2_decodeScreenRight:  .namespace c64lib { _t2_decodeScreenRight(@cfg, testScreenData); rts }
+_t2_decodeScreenRight:  .namespace c64lib { _t2_decodeScreenRight(@cfg, 0); rts }
 
 .macro beforeTest() {
   c64lib_set16($0000, x)
