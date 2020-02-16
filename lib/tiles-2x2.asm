@@ -122,9 +122,17 @@
 
 
   cld
-  lda cfg.x + 1                       // load (tile) X position
   clc
-  adc #19                             // we will draw last column
+  lda cfg.x
+  and #%10000000
+  bne nextTile
+    lda cfg.x + 1                       // load (tile) X position
+    adc #19                             // we will draw last column
+    jmp endNextTile
+  nextTile:
+    lda cfg.x + 1
+    adc #20
+  endNextTile:
   tax                                 // X contains a x coodinate of the map tile
 
   lda cfg.y                           // load subtile Y position
