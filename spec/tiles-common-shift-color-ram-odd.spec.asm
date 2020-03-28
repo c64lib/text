@@ -14,8 +14,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedLeft
       
@@ -30,8 +30,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #1
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedLeft
       
@@ -48,8 +48,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedRight
       
@@ -64,8 +64,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #1
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedRight
       
@@ -82,8 +82,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedTop
       
@@ -98,8 +98,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #1
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedTop
       
@@ -116,8 +116,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedBottom
       
@@ -132,8 +132,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #1
-      sta x
-      sta y
+      sta x + 1
+      sta y + 1
   
       jsr shiftInterleavedBottom
       

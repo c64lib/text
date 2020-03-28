@@ -21,14 +21,14 @@
 // = color ram macros =
 .macro _t2_calculateXOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
-  lda cfg.x
+  lda cfg.x + 1
   // todo it works with tilesize 2 only
   and #%00000001
 }
 
 .macro _t2_calculateYOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
-  lda cfg.y
+  lda cfg.y + 1
   // todo it works with tilesize 2 only
   and #%00000001
 }

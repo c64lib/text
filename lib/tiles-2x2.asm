@@ -186,7 +186,7 @@
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
   cld
-  lda cfg.x  + 1   
+  lda cfg.x + 1   
   clc
   adc #19
   tax
