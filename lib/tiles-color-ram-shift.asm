@@ -64,7 +64,7 @@
 // orthogonal shifts
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
-  eor #%10000000  // here we need to negate the value
+  eor #$ff  // here we need to negate the value
   lsr
   lsr
   lsr
