@@ -12,4 +12,14 @@ https://c64lib.github.io/docu/libs/text
 ### Changes in 0.2.0
 
 * Public symbols are now declared globally in "-global.asm" files
-* 2x2 char mode scrolling routines
+
+* New library file: `tiles-common.asm` - common stuff for backdrop scrolling.
+* New struct: `tiles-common.asm/TileCommonConfig` - configuration structure for any size scrolling system.
+
+* New library file: `tiles-2x2.asm` - scrolling routines for 2x2 tile backdrops.
+* New struct: `tiles-2x2.asm/Tile2Config` - configuration structure for 2x2 scrolling system.
+* New macro: `tiles-2x2.asm/tile2Init` - initialize 2x2 scrolling system.
+
+* New library file: `tiles-color-ram-shift.asm` - dedicated macros for scrolling color RAM.
+
+* New library file: `tiles-screen-shift.asm` - dedicated macros for scrolling video RAM.
