@@ -14,18 +14,18 @@
   outText: {
   
   invokeStackBegin(returnPtr)
-  pullParamW(storeText + 1)
-  pullParamW(loadText + 1)
+  pullParamW(storeText)
+  pullParamW(loadText)
   
-              ldx #$00
-              loop:
-  loadText:     lda $FFFF, x
-                cmp #$FF
-                beq end
-  storeText:    sta $FFFF, x
-                inx
-              bne loop
-              end:
+  ldx #$00
+  loop:
+    lda loadText:$ffff, x
+    cmp #$ff
+    beq end
+    sta storeText:$ffff, x
+    inx
+  bne loop
+  end:
               
   invokeStackEnd(returnPtr)
   rts

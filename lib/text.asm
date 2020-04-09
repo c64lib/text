@@ -3,7 +3,7 @@
 #importonce
 .filenamespace c64lib
 
-.macro @incText(text, count) {
+.macro incText(text, count) {
   // thank you Alex Goldblat!
   .fill text.size(), text.charAt(i) + count
 }

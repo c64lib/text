@@ -1,4 +1,14 @@
-.cbm
 *.prg
 *.sym
+*.vs
+*.specOut
+.asminfo.txt
+.source.txt
+*.dbg
 
+# gradle
+.gradle
+build
+
+.idea
+.ra
