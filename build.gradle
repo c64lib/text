@@ -13,8 +13,8 @@ retroProject {
     dialectVersion = "5.13"
     libDirs = ["..", ".ra/deps/c64lib"]
 
-    libFromGitHub "c64lib/common", "0.2.0"
-    libFromGitHub "c64lib/chipset", "0.2.0"
+    libFromGitHub "c64lib/common", "develop"
+    libFromGitHub "c64lib/chipset", "develop"
     libFromGitHub "c64lib/64spec", "0.7.0pr"
 }
 
