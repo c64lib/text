@@ -90,6 +90,13 @@
 .macro _t2_shiftInterleavedRight(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
   clc
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
   adc #39
   tay
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
