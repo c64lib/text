@@ -21,16 +21,16 @@
 // = color ram macros =
 .macro _t2_calculateXOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
-  lda cfg.x + 1
+  lda cfg.x
   // todo it works with tilesize 2 only
-  and #%00000001
+  and #%10000000
 }
 
 .macro _t2_calculateYOffset(cfg, tileSize) {
   .assert "tilesize 2 is only supported", tileSize, 2
-  lda cfg.y + 1
+  lda cfg.y
   // todo it works with tilesize 2 only
-  and #%00000001
+  and #%10000000
 }
 
 // = color ram shifting routines =
@@ -64,7 +64,14 @@
 // orthogonal shifts
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
-  eor #%00000001  // here we need to negate the value
+  eor #%10000000  // here we need to negate the value
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
+  lsr
   tay
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
     tya
