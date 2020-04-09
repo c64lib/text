@@ -14,8 +14,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x + 1
-      sta y + 1
+      sta x
+      sta y
   
       jsr shiftInterleavedLeft
       
@@ -29,9 +29,9 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #1
-      sta x + 1
-      sta y + 1
+      lda #%10000000
+      sta x
+      sta y
   
       jsr shiftInterleavedLeft
       
@@ -48,8 +48,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x + 1
-      sta y + 1
+      sta x
+      sta y
   
       jsr shiftInterleavedRight
       
@@ -63,9 +63,9 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #1
-      sta x + 1
-      sta y + 1
+      lda #%10000000
+      sta x
+      sta y
   
       jsr shiftInterleavedRight
       
@@ -82,8 +82,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x + 1
-      sta y + 1
+      sta x
+      sta y
   
       jsr shiftInterleavedTop
       
@@ -97,9 +97,9 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #1
-      sta x + 1
-      sta y + 1
+      lda #%10000000
+      sta x
+      sta y
   
       jsr shiftInterleavedTop
       
@@ -116,8 +116,8 @@ sfspec: init_spec()
       jsr copyLargeMemForward
       
       lda #0
-      sta x + 1
-      sta y + 1
+      sta x
+      sta y
   
       jsr shiftInterleavedBottom
       
@@ -131,9 +131,9 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #1
-      sta x + 1
-      sta y + 1
+      lda #%10000000
+      sta x
+      sta y
   
       jsr shiftInterleavedBottom
       
