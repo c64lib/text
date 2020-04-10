@@ -104,11 +104,67 @@
  */
 .macro _t2_decodeTile(cfg, lineNo) {
     ldy cfg.y + 1                   // "y" contains a y-offset of the viewport
-    lda cfg.mapOffsetsLo + lineNo,y // 
+    lda cfg.mapOffsetsLo + lineNo,y //
     sta mapPtr
     lda cfg.mapOffsetsHi + lineNo,y
     sta mapPtr + 1
     lda mapPtr:$FFFF,x
+}
+
+/*
+ * Draws a tile on the screen, but only makes sense when [x,y] = [0,0].
+ *
+ * In:  X - relative X offset of the tile
+ * In:  Y - relative Y offset of the tile
+ * Mod: A
+ */
+.macro drawTile(cfg, screen, colorRam) {
+  // save regs
+  tya
+  pha
+  // calculate screen position
+  lda rowOffsetsLo,y
+  sta lt
+  lda rowOffsetsHi,y
+  sta lt + 1
+  lda rowOffsetsLo,y
+  sta rt
+  lda rowOffsetsHi,y
+  sta rt + 1
+  iny
+  lda rowOffsetsLo,y
+  sta lb
+  lda rowOffsetsHi,y
+  sta lb + 1
+  lda rowOffsetsLo,y
+  sta rb
+  lda rowOffsetsHi,y
+  sta rb + 1
+  // calculate tile number
+  lda cfg.mapOffsetsLo,y
+  sta mapPtr
+  adc cfg.mapOffsetsHi,y
+  sta mapPtr + 1
+  ldy mapPtr:$ffff,x // A <- tile number
+
+  lda cfg.tileDefinition,y
+  sta lt: $ffff,x
+  lda cfg.tileDefinition + 512,y
+  sta lb: $ffff,x
+  inx
+  lda cfg.tileDefinition + 256,y
+  sta rt: $ffff,x
+  lda cfg.tileDefinition + 768,y
+  sta rb: $ffff,x
+  dex
+
+  // restore regs
+  pla
+  tay
+  rts
+  // --- data ---
+  rowOffsetsLo: .fill 25, <(screen + i*40)
+  rowOffsetsHi: .fill 25, >(screen + i*40)
 }
 
 /*
