@@ -128,30 +128,47 @@
   tya
   asl
   tay
-  lda rowOffsetsLo,y
+  lda rowOffsetsLo + cfg.startRow,y
   sta lt
-  lda rowOffsetsHi,y
+  lda colorOffsetsLo + cfg.startRow,y
+  sta clt 
+  lda rowOffsetsHi + cfg.startRow,y
   sta lt + 1
-  lda rowOffsetsLo,y
+  lda colorOffsetsHi + cfg.startRow,y
+  sta clt + 1
+  lda rowOffsetsLo + cfg.startRow,y
   sta rt
-  lda rowOffsetsHi,y
+  lda colorOffsetsLo + cfg.startRow,y
+  sta crt
+  lda rowOffsetsHi + cfg.startRow,y
   sta rt + 1
-  iny
-  lda rowOffsetsLo,y
+  lda colorOffsetsHi + cfg.startRow,y
+  sta crt + 1
+  iny 
+  lda rowOffsetsLo + cfg.startRow,y
   sta lb
-  lda rowOffsetsHi,y
+  lda colorOffsetsLo + cfg.startRow,y
+  sta clb
+  lda rowOffsetsHi + cfg.startRow,y
   sta lb + 1
-  lda rowOffsetsLo,y
+  lda colorOffsetsHi + cfg.startRow,y
+  sta clb + 1
+  lda rowOffsetsLo + cfg.startRow,y
   sta rb
-  lda rowOffsetsHi,y
+  lda colorOffsetsLo + cfg.startRow,y
+  sta crb
+  lda rowOffsetsHi + cfg.startRow,y
   sta rb + 1
+  lda colorOffsetsHi + cfg.startRow,y
+  sta crb + 1
+  dey
   tya
   lsr
   tay
   // calculate tile number
   lda cfg.mapOffsetsLo,y
   sta mapPtr
-  adc cfg.mapOffsetsHi,y
+  lda cfg.mapOffsetsHi,y
   sta mapPtr + 1
   ldy mapPtr:$ffff,x // Y <- tile number
 
@@ -159,6 +176,7 @@
   asl
   tax
 
+  // fill screen data
   lda cfg.tileDefinition,y
   sta lt: $ffff,x
   lda cfg.tileDefinition + 512,y
@@ -168,6 +186,15 @@
   sta rt: $ffff,x
   lda cfg.tileDefinition + 768,y
   sta rb: $ffff,x
+  dex
+  
+  // fill color RAM 
+  lda cfg.tileColors,y
+  sta clt: $ffff,x
+  sta clb: $ffff,x
+  inx
+  sta crt: $ffff,x
+  sta crb: $ffff,x
   dex
 
   // restore regs
@@ -179,6 +206,8 @@
   // --- data ---
   rowOffsetsLo: .fill 25, <(screen + i*40)
   rowOffsetsHi: .fill 25, >(screen + i*40)
+  colorOffsetsLo: .fill 25, <(colorRam + i*40)
+  colorOffsetsHi: .fill 25, >(colorRam + i*40)
 }
 
 /*
