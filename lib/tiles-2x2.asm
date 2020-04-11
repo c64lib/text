@@ -120,9 +120,14 @@
  */
 .macro drawTile(cfg, screen, colorRam) {
   // save regs
+  txa
+  pha
   tya
   pha
   // calculate screen position
+  tya
+  asl
+  tay
   lda rowOffsetsLo,y
   sta lt
   lda rowOffsetsHi,y
@@ -140,12 +145,19 @@
   sta rb
   lda rowOffsetsHi,y
   sta rb + 1
+  tya
+  lsr
+  tay
   // calculate tile number
   lda cfg.mapOffsetsLo,y
   sta mapPtr
   adc cfg.mapOffsetsHi,y
   sta mapPtr + 1
-  ldy mapPtr:$ffff,x // A <- tile number
+  ldy mapPtr:$ffff,x // Y <- tile number
+
+  txa
+  asl
+  tax
 
   lda cfg.tileDefinition,y
   sta lt: $ffff,x
@@ -161,6 +173,8 @@
   // restore regs
   pla
   tay
+  pla
+  tax
   rts
   // --- data ---
   rowOffsetsLo: .fill 25, <(screen + i*40)
