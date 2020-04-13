@@ -56,6 +56,62 @@ sfspec: init_spec()
     assert_a_equal #49
   }
 
+  it("tile for offset 5,2 row 0"); {
+    beforeTest();
+    c64lib_set16($0500, x)
+    c64lib_set16($0200, y)
+ 
+    // given
+    ldx #0
+    ldy #0
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #55
+    // given
+    ldx #1
+    ldy #0
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #56
+    // given
+    ldx #24
+    ldy #0
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #79
+  }
+
+  it("tile for offset 5,2 row 1"); {
+    beforeTest();
+    c64lib_set16($0500, x)
+    c64lib_set16($0200, y)
+ 
+    // given
+    ldx #0
+    ldy #1
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #80
+    // given
+    ldx #1
+    ldy #1
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #81
+    // given
+    ldx #24
+    ldy #1
+    // when
+    jsr decodeTile
+    // then
+    assert_a_equal #104
+  }
+
 finish_spec()
 
 * = * "Data"
