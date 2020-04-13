@@ -112,6 +112,30 @@
 }
 
 /*
+ * Returns tile number denoted by current viewport position and given relative coordinates.
+ *
+ * In:  X - relative X coordinates rounded to the whole character
+ *      Y - relative Y coordinates rounded to the whole character
+ * Out: A - tile number (tile code)
+ * Mod: A,X,Y
+ */
+.macro decodeTile(cfg) {
+  tya
+  clc
+  adc cfg.y + 1
+  tay
+  txa
+  clc
+  adc cfg.x + 1
+  tax
+  lda cfg.mapOffsetsLo,y
+  sta mapPtr
+  lda cfg.mapOffsetsHi,y
+  sta mapPtr + 1
+  lda mapPtr:$FFFF,x
+}
+
+/*
  * Draws a tile on the screen, but only makes sense when [x,y] = [0,0].
  *
  * In:  X - relative X offset of the tile
