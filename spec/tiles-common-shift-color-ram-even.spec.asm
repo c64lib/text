@@ -13,15 +13,19 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #0
+      lda #%10000000
       sta x
+      lda #0
+      sta x + 1
+      lda #0
       sta y
+      sta y + 1
   
       jsr shiftInterleavedLeft
       
       assert_bytes_equal 1000: testScreenData: expectedScreenLeft0
     }
-
+    
     it("shifts mem left by 1 from [1,1]"); {
     
       c64lib_pushParamW(initialScreenData1)
@@ -29,9 +33,13 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #%10000000
+      lda #%00000000
       sta x
+      lda #%00000001
+      sta x + 1
+      lda #0
       sta y
+      sta y + 1
   
       jsr shiftInterleavedLeft
       

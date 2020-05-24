@@ -13,9 +13,12 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #0
+      lda #%10000000
       sta x
+      lda #0
+      sta x + 1
       sta y
+      sta y + 1
   
       jsr shiftInterleavedLeft
       
@@ -29,9 +32,13 @@ sfspec: init_spec()
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
       
-      lda #%10000000
+      lda #0
       sta x
+      lda #%00000001
+      sta x + 1
+      lda #0
       sta y
+      sta y + 1
   
       jsr shiftInterleavedLeft
       
