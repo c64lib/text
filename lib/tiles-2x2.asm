@@ -311,7 +311,7 @@
   cld
   lda cfg.x + 1   
   clc
-  adc #19
+  adc #20
   tax
 
   lda cfg.y
