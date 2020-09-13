@@ -11,7 +11,6 @@
  */
 .namespace c64lib {
   outHexNibble: {
-  
   invokeStackBegin(returnPtr)
 
   pullParamW(storeHex)   // IN: screen location ptr
