@@ -60,7 +60,7 @@ sfspec: init_spec()
     beforeTest();
     c64lib_set16($0500, x)
     c64lib_set16($0200, y)
- 
+
     // given
     ldx #0
     ldy #0
@@ -88,7 +88,7 @@ sfspec: init_spec()
     beforeTest();
     c64lib_set16($0500, x)
     c64lib_set16($0200, y)
- 
+
     // given
     ldx #0
     ldy #1

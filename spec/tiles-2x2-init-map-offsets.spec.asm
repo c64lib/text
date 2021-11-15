@@ -4,7 +4,7 @@
 
 sfspec: init_spec()
   describe("_t2_initMapDefinitionOffsets")
-  
+
   it("a [40,3] map sets three offsets"); {
     // given
     lda #40
@@ -17,7 +17,7 @@ sfspec: init_spec()
     assert_equal mapOffsetsLo : #<mapDefinition
     assert_equal mapOffsetsHi : #>mapDefinition
     assert_equal mapOffsetsLo + 1 : #<(mapDefinition + 40)
-    assert_equal mapOffsetsHi + 1 : #>(mapDefinition + 40) 
+    assert_equal mapOffsetsHi + 1 : #>(mapDefinition + 40)
     assert_equal mapOffsetsLo + 2 : #<(mapDefinition + 80)
     assert_equal mapOffsetsHi + 2 : #>(mapDefinition + 80)
   }

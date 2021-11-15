@@ -3,34 +3,34 @@
 
 sfspec: init_spec()
   describe("_t2_shiftScreenLeft")
-  
+
   it("shifts screen to the left by 1 byte"); {
     jsr shiftScreenLeft
-    
+
     assert_bytes_equal 1000: testScreenData: expectedScreenData_left
   }
-  
+
   describe("_t2_shiftScreenRight")
-  
+
   it("shifts screen to the right by 1 byte"); {
     jsr shiftScreenRight
-    
+
     assert_bytes_equal 1000: testScreenData: expectedScreenData_right
   }
 
   describe("_t2_shiftScreenTop")
-  
+
   it("shifts screen to the top by 1 byte"); {
     jsr shiftScreenTop
-    
+
     assert_bytes_equal 1000: testScreenData: expectedScreenData_top
   }
 
   describe("_t2_shiftScreenBottom")
-  
+
   it("shifts screen to the bottom by 1 byte"); {
     jsr shiftScreenBottom
-    
+
     assert_bytes_equal 1000: testScreenData: expectedScreenData_bottom
   }
 

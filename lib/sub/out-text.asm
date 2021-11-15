@@ -12,11 +12,11 @@
  */
 .namespace c64lib {
   outText: {
-  
+
   invokeStackBegin(returnPtr)
   pullParamW(storeText)
   pullParamW(loadText)
-  
+
   ldx #$00
   loop:
     lda loadText:$ffff, x
@@ -26,7 +26,7 @@
     inx
   bne loop
   end:
-              
+
   invokeStackEnd(returnPtr)
   rts
   // local variables

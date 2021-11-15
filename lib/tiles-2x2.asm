@@ -1,11 +1,11 @@
-#import "tiles-common.asm" 
+#import "tiles-common.asm"
 #import "tiles-screen-shift.asm"
 #import "tiles-color-ram-shift.asm"
 #import "common/lib/math.asm"
 #import "common/lib/mem.asm"
 
-#importonce 
-.filenamespace c64lib 
+#importonce
+.filenamespace c64lib
 
 /*
  * Config record for 2x2 tile scrollable playfield.
@@ -46,7 +46,7 @@
   z3,
   // ---- precalculated buffers
   // 16 bit address of lo part of map rows
-  mapOffsetsLo,  
+  mapOffsetsLo,
   // 16 bit address of hi part of map rows
   mapOffsetsHi
 }
@@ -68,7 +68,7 @@
   _t2_initMapOffsets(cfg)
 }
 
-/* 
+/*
  * initialize mapOffsetsLo and mapOffsetsHi buffers
  *
  * Mod: A, X, Y
@@ -155,7 +155,7 @@
   lda rowOffsetsLo + cfg.startRow,y
   sta lt
   lda colorOffsetsLo + cfg.startRow,y
-  sta clt 
+  sta clt
   lda rowOffsetsHi + cfg.startRow,y
   sta lt + 1
   lda colorOffsetsHi + cfg.startRow,y
@@ -168,7 +168,7 @@
   sta rt + 1
   lda colorOffsetsHi + cfg.startRow,y
   sta crt + 1
-  iny 
+  iny
   lda rowOffsetsLo + cfg.startRow,y
   sta lb
   lda colorOffsetsLo + cfg.startRow,y
@@ -211,8 +211,8 @@
   lda cfg.tileDefinition + 768,y
   sta rb: $ffff,x
   dex
-  
-  // fill color RAM 
+
+  // fill color RAM
   lda cfg.tileColors,y
   sta clt: $ffff,x
   sta clb: $ffff,x
@@ -264,7 +264,7 @@
                                       // Y position is odd
     _t2_decodeTile(cfg, 0)
     tay                               // X contains tile number
-   
+
     lda cfg.x
     and #%10000000
     bne xOdd
@@ -274,12 +274,12 @@
     xOdd:
       lda cfg.tileDefinition + 768,y
       sta pageAddress + 39
-    done: 
+    done:
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
     _t2_decodeTile(cfg, (y - cfg.startRow)/2)
     tay
-    
+
     lda cfg.x
     and #%10000000
     beq xEven
@@ -297,7 +297,7 @@
         lda cfg.tileDefinition + 768,y
         sta pageAddress + ((y + 1)*40) + 39
       }
-    done: 
+    done:
   }
 }
 
@@ -309,7 +309,7 @@
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
   cld
-  lda cfg.x + 1   
+  lda cfg.x + 1
   clc
   adc #20
   tax

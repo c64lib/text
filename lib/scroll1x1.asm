@@ -17,10 +17,10 @@
   pullParamW(scrollPtr)
   pullParamW(textPtr)
   pullParamW(screenPtr)
-  
+
   // shift text to left
   copyFast(screenPtr, tempZero1, 2)
-  
+
   #if C64LIB_SPEED_CODE
     ldy #$01
     .for(var i = 0; i < 39; i++) {
@@ -42,7 +42,7 @@
       cpy #39
     bne shiftText
   #endif
-    
+
   // place next char
   copyFast(scrollPtr, tempZero1, 2)
   ldy #$00

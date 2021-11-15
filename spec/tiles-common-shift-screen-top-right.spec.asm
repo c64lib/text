@@ -3,10 +3,10 @@
 
 sfspec: init_spec()
   describe("_t2_shiftScreenRightTop")
-  
+
   it("shifts screen to the right/top by 1 byte"); {
     jsr shiftScreenRightTop
-    
+
     assert_bytes_equal 1000: testScreenData: expectedScreenData_rightTop
   }
 

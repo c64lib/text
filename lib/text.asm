@@ -15,16 +15,16 @@
 
   pullParamW(storeHex)   // IN: screen location ptr
   pullParamW(loadByte)   // IN: byte ptr
-    
+
   lda loadByte:$ffff // load byte to process
   and #%00001111   // clear first digit
   tay
   lda hexChars, y
   sta storeHex:$ffff
-              
+
   invokeStackEnd(returnPtr)
   rts
-  
+
   // local variables
   returnPtr:  .word 0
   hexChars:   incText("0123456789abcdef", charsetOffset)

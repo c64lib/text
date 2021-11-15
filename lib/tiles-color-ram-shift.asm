@@ -119,10 +119,10 @@
   ldx #40
 
   _t2_calculateYOffset(cfg, tileSize)
-  
+
   beq even
   jmp odd
-  
+
   even:
     !loop:
       .for(var y = cfg.startRow + 1; y < cfg.endRow; y = y + 2) {
@@ -132,8 +132,8 @@
       dex
     fbne(!loop-)
     jmp end
-  
-  odd: 
+
+  odd:
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         lda startAddress + (y + 1)*40 - 1, x
@@ -141,7 +141,7 @@
       }
       dex
     fbne(!loop-)
-  
+
   end:
 }
 
@@ -153,10 +153,10 @@
   ldx #40
 
   _t2_calculateYOffset(cfg, tileSize)
-  
+
   beq even
   jmp odd
-  
+
   even:
     !loop:
       .for(var y = cfg.endRow - 1 - isOdd; y >= cfg.startRow; y = y - 2) {
@@ -166,8 +166,8 @@
       dex
     fbne(!loop-)
     jmp end
-  
-  odd: 
+
+  odd:
     !loop:
       .for(var y = cfg.endRow - 2 + isOdd; y >= cfg.startRow; y = y - 2) {
         lda startAddress + y*40 - 1, x
@@ -175,7 +175,7 @@
       }
       dex
     fbne(!loop-)
-  
+
   end:
 }
 
@@ -196,10 +196,10 @@
   ldx #0
 
   _t2_calculateYOffset(cfg, tileSize)
-  
+
   beq even
   jmp odd
-  
+
   even:
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
@@ -219,8 +219,8 @@
       cpx #39
     fbmi(!loop-)
     jmp end
-  
-  odd: 
+
+  odd:
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         // but here we have to copy whole line
@@ -259,10 +259,10 @@
   ldx #39
 
   _t2_calculateYOffset(cfg, tileSize)
-  
+
   beq even
   jmp odd
-  
+
   even:
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
@@ -286,8 +286,8 @@
       sta startAddress + (y + 1)*40 + 1
     }
     jmp end
-  
-  odd: 
+
+  odd:
     !loop:
       .for(var y = cfg.startRow; y < cfg.endRow; y = y + 2) {
         // but here we have to copy whole line
