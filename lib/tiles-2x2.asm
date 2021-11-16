@@ -234,6 +234,29 @@
   colorOffsetsHi: .fill 25, >(colorRam + i*40)
 }
 
+/**
+ * Shifts screen data to the right by one character.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ * - page - which page to use (0 or 1).
+ *
+ * Mod: A, X
+ */
+.macro shiftScreenRight(cfg, page) { _t2_shiftScreenRight(cfg, page) }
+
+/**
+ * Shifts color RAM to the right by one character.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ *
+ * Mod: A, X, Y
+ */
+.macro shiftColorRamRight(cfg) { _t2_shiftColorRamRight(cfg, 2) }
+
+// ----- Private stuff. -----
+
 /*
  * Decode rightmost column of the playfield into given screen page.
  *
