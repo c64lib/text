@@ -12,11 +12,11 @@ https://c64lib.github.io/docu/libs/text
 
 ### Changes in 0.3.0
 
-* Screen shift to the right (both screen mem and color RAM) are well tested with T-Rex 64 release.
+* Screen shift to the left (both screen mem and color RAM) are well tested with T-Rex 64 release.
 * New macro: `tiles-2x2.asm/decodeTile`.
 * New macro: `tiles-2x2.asm/drawTile`.
-* New macro: `tiles-2x2.asm/shiftScreenRight`.
-* New macro: `tiles-2x2.asm/shiftColorRamRight`.
+* New macro: `tiles-2x2.asm/shiftScreenLeft`.
+* New macro: `tiles-2x2.asm/shiftColorRamLeft`.
 
 ### Changes in 0.2.0
 

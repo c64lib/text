@@ -235,25 +235,38 @@
 }
 
 /**
- * Shifts screen data to the right by one character.
+ * Shifts screen data to the left by one character.
  *
  * Parameters:
  * - cfg - tileset configuration.
- * - page - which page to use (0 or 1).
+ * - page - which page to use as src (0 or 1).
  *
  * Mod: A, X
  */
-.macro shiftScreenRight(cfg, page) { _t2_shiftScreenRight(cfg, page) }
+.macro shiftScreenLeft(cfg, page) {
+  .if (page == 0) {
+    _t2_shiftScreenLeft(cfg, 0, 1)
+  } else {
+    _t2_shiftScreenLeft(cfg, 1, 0)
+  }
+}
 
 /**
- * Shifts color RAM to the right by one character.
+ * Shifts color RAM to the left by one character.
  *
  * Parameters:
  * - cfg - tileset configuration.
  *
  * Mod: A, X, Y
  */
-.macro shiftColorRamRight(cfg) { _t2_shiftColorRamRight(cfg, 2) }
+.macro shiftColorRamLeft(cfg) { _t2_shiftColorRamLeft(cfg, 2) }
+
+/*
+ * Decode rightmost column of the playfield into given screen page.
+ *
+ * Mod: A, X, Y
+ */
+.macro decodeScreenRight(cfg, page) { _t2_decodeScreenRight(cfg, page) }
 
 // ----- Private stuff. -----
 
