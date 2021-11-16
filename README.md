@@ -17,6 +17,8 @@ https://c64lib.github.io/docu/libs/text
 * New macro: `tiles-2x2.asm/drawTile`.
 * New macro: `tiles-2x2.asm/shiftScreenLeft`.
 * New macro: `tiles-2x2.asm/shiftColorRamLeft`.
+* New macro: `tiles-2x2.asm/decodeScreenRight`.
+* New macro: `tiles-2x2.asm/decodeColorRight`.
 
 ### Changes in 0.2.0
 

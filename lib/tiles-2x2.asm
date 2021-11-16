@@ -264,9 +264,23 @@
 /*
  * Decode rightmost column of the playfield into given screen page.
  *
+ * Parameters:
+ * - cfg - tileset configuration.
+ * - page - which page to use (0 or 1).
+ *
  * Mod: A, X, Y
  */
 .macro decodeScreenRight(cfg, page) { _t2_decodeScreenRight(cfg, page) }
+
+/*
+ * Decode rightmost column of the color data.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ *
+ * Mod: A, X, Y
+ */
+.macro decodeColorRight(cfg) { _t2_decodeColorRight(cfg, COLOR_RAM) }
 
 // ----- Private stuff. -----
 
