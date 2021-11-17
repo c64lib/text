@@ -205,21 +205,22 @@
   sta lt: $ffff,x
   lda cfg.tileDefinition + 512,y
   sta lb: $ffff,x
-  inx
-  lda cfg.tileDefinition + 256,y
-  sta rt: $ffff,x
-  lda cfg.tileDefinition + 768,y
-  sta rb: $ffff,x
-  dex
-
   // fill color RAM
   lda cfg.tileColors,y
   sta clt: $ffff,x
   sta clb: $ffff,x
+
   inx
+
+  // fill screen data
+  lda cfg.tileDefinition + 256,y
+  sta rt: $ffff,x
+  lda cfg.tileDefinition + 768,y
+  sta rb: $ffff,x
+  // fill color RAM
+  lda cfg.tileColors,y
   sta crt: $ffff,x
   sta crb: $ffff,x
-  dex
 
   // restore regs
   pla
