@@ -64,15 +64,12 @@
 // orthogonal shifts
 .macro _t2_shiftInterleavedLeft(cfg, startAddress, tileSize) {
   _t2_calculateXOffset(cfg, tileSize)
-  //eor #$ff
-  lsr
-  lsr
-  lsr
-  lsr
-  lsr
-  lsr
-  lsr
-  tay
+  bne !+
+    ldy #0
+    jmp go
+  !:
+    ldy #1
+  go:
   .for(var y = cfg.startRow; y <= cfg.endRow; y++) {
     tya
     tax
