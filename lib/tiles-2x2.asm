@@ -361,7 +361,7 @@
   cld // TODO shouldn't be there (remove)
   lda cfg.x
   and #%10000000
-  bne nextTile
+  beq nextTile
     lda cfg.x + 1                       // load (tile) X position
     adc #19                             // we will draw last column
     jmp endNextTile
