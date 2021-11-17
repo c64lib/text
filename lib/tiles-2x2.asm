@@ -294,7 +294,7 @@
   .var pageAddress = _t2_screenAddress(cfg, page)
 
 
-  cld
+  cld // TODO shouldn't be there (remove)
   clc
   lda cfg.x
   and #%10000000
@@ -358,11 +358,23 @@
  */
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
-  cld
-  lda cfg.x + 1
-  clc
-  adc #20
-  tax
+  cld // TODO shouldn't be there (remove)
+  lda cfg.x
+  and #%10000000
+  bne nextTile
+    lda cfg.x + 1                       // load (tile) X position
+    adc #19                             // we will draw last column
+    jmp endNextTile
+  nextTile:
+    lda cfg.x + 1
+    adc #20
+  endNextTile:
+  tax                                 // X contains a x coodinate of the map tile
+
+  // lda cfg.x + 1
+  // clc
+  // adc #20
+  // tax
 
   lda cfg.y
   and #%10000000
