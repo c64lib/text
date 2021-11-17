@@ -149,46 +149,55 @@
   tya
   pha
   // calculate screen position
+  sty storeY
   tya
   asl
   tay
+
   lda rowOffsetsLo + cfg.startRow,y
   sta lt
   lda colorOffsetsLo + cfg.startRow,y
   sta clt
+
   lda rowOffsetsHi + cfg.startRow,y
   sta lt + 1
   lda colorOffsetsHi + cfg.startRow,y
   sta clt + 1
+
   lda rowOffsetsLo + cfg.startRow,y
   sta rt
   lda colorOffsetsLo + cfg.startRow,y
   sta crt
+
   lda rowOffsetsHi + cfg.startRow,y
   sta rt + 1
   lda colorOffsetsHi + cfg.startRow,y
   sta crt + 1
+
   iny
+
   lda rowOffsetsLo + cfg.startRow,y
   sta lb
   lda colorOffsetsLo + cfg.startRow,y
   sta clb
+
   lda rowOffsetsHi + cfg.startRow,y
   sta lb + 1
   lda colorOffsetsHi + cfg.startRow,y
   sta clb + 1
+
   lda rowOffsetsLo + cfg.startRow,y
   sta rb
   lda colorOffsetsLo + cfg.startRow,y
   sta crb
+
   lda rowOffsetsHi + cfg.startRow,y
   sta rb + 1
   lda colorOffsetsHi + cfg.startRow,y
   sta crb + 1
-  dey
-  tya
-  lsr
-  tay
+
+  ldy storeY
+
   // calculate tile number
   lda cfg.mapOffsetsLo,y
   sta mapPtr
@@ -233,6 +242,7 @@
   rowOffsetsHi: .fill 25, >(screen + i*40)
   colorOffsetsLo: .fill 25, <(colorRam + i*40)
   colorOffsetsHi: .fill 25, >(colorRam + i*40)
+  storeY: .byte $00
 }
 
 /**
