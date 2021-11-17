@@ -293,8 +293,6 @@
 
   .var pageAddress = _t2_screenAddress(cfg, page)
 
-
-  cld // TODO shouldn't be there (remove)
   clc
   lda cfg.x
   and #%10000000
@@ -358,7 +356,6 @@
  */
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
-  cld // TODO shouldn't be there (remove)
   clc
   lda cfg.x
   and #%10000000
