@@ -70,17 +70,17 @@ mapOffsetsHi: .fill 256, 0
 mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
 mapDefinition:
   //    "00000111112222233333344"
-  .fill 19,4; .byte 1,2,3
-  .fill 19,4; .byte 2,2,3
-  .fill 19,4; .byte 3,2,3
-  .fill 19,4; .byte 0,2,3
-  .fill 19,4; .byte 1,2,3
-  .fill 19,4; .byte 1,1,3
-  .fill 19,4; .byte 1,2,3
-  .fill 19,4; .byte 1,3,3
-  .fill 19,4; .byte 1,2,3
-  .fill 19,4; .byte 1,2,3
-  .fill 19,4; .byte 1,2,3
+  .fill 20,4; .byte 1,2
+  .fill 20,4; .byte 2,2
+  .fill 20,4; .byte 3,2
+  .fill 20,4; .byte 0,2
+  .fill 20,4; .byte 1,2
+  .fill 20,4; .byte 1,1
+  .fill 20,4; .byte 1,2
+  .fill 20,4; .byte 1,3
+  .fill 20,4; .byte 1,2
+  .fill 20,4; .byte 1,2
+  .fill 20,4; .byte 1,2
 
 tileDefinition0: .text "*1q75"; .fill 251, 0 // +0
 tileDefinition1: .text ",2w86"; .fill 251, 0 // +256

@@ -361,7 +361,6 @@
   cld
   lda cfg.x + 1
   clc
-  // adc #19 <-- this value works with tests
   adc #20
   tax
 
