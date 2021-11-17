@@ -24,7 +24,7 @@ sfspec: init_spec()
     // when
     jsr _t2_decodeColorRight
     // then
-    assert_bytes_equal 1000: testScreenData: expectedColorRam1
+    assert_bytes_equal 1000: testScreenData: expectedColorRam2
   }
 
   it("even column for 1,0"); {
@@ -46,7 +46,7 @@ sfspec: init_spec()
     // when
     jsr _t2_decodeColorRight
     // then
-    assert_bytes_equal 1000: testScreenData: expectedColorRam2
+    assert_bytes_equal 1000: testScreenData: expectedColorRam3
   }
 
 finish_spec()
@@ -70,17 +70,17 @@ mapOffsetsHi: .fill 256, 0
 mapDefinitionPtr: .byte <mapDefinition, >mapDefinition
 mapDefinition:
   //    "00000111112222233333344"
-  .fill 20,4; .byte 1,2
-  .fill 20,4; .byte 2,2
-  .fill 20,4; .byte 3,2
-  .fill 20,4; .byte 0,2
-  .fill 20,4; .byte 1,2
-  .fill 20,4; .byte 1,1
-  .fill 20,4; .byte 1,2
-  .fill 20,4; .byte 1,3
-  .fill 20,4; .byte 1,2
-  .fill 20,4; .byte 1,2
-  .fill 20,4; .byte 1,2
+  .fill 19,4; .byte 1,2,1
+  .fill 19,4; .byte 2,2,2
+  .fill 19,4; .byte 3,2,3
+  .fill 19,4; .byte 0,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,1,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,3,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,3
+  .fill 19,4; .byte 1,2,1
 
 tileDefinition0: .text "*1q75"; .fill 251, 0 // +0
 tileDefinition1: .text ",2w86"; .fill 251, 0 // +256
@@ -176,6 +176,34 @@ expectedColorRam2: {
   .text "........................................"
 }
 
+expectedColorRam3: {
+  //    "0000011111222223333344444555556666677777"
+  .text "........................................"
+  .text "......................................."; .byte 11
+  .text "......................................."; .byte 11
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 12
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 13
+  .text "......................................."; .byte 11
+  .text "......................................."; .byte 11
+  .text "........................................"
+  .text "........................................"
+}
 
 _t2_initMapOffsets:     .namespace c64lib { _t2_initMapOffsets(@cfg); rts }
 _t2_decodeColorRight:   .namespace c64lib { _t2_decodeColorRight(@cfg, testScreenData); rts }
