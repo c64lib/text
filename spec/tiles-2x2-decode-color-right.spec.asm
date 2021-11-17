@@ -30,7 +30,7 @@ sfspec: init_spec()
   it("even column for 1,0"); {
     beforeTest()
     // given
-    c64lib_set16($0180, x)
+    c64lib_set16($0100, x)
     c64lib_set16($0000, y)
     // when
     jsr _t2_decodeColorRight

@@ -359,6 +359,7 @@
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
   cld // TODO shouldn't be there (remove)
+  clc
   lda cfg.x
   and #%10000000
   beq nextTile
@@ -370,11 +371,6 @@
     adc #20
   endNextTile:
   tax                                 // X contains a x coodinate of the map tile
-
-  // lda cfg.x + 1
-  // clc
-  // adc #20
-  // tax
 
   lda cfg.y
   and #%10000000
