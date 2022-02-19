@@ -1,11 +1,11 @@
-#import "tiles-common.asm" 
+#import "tiles-common.asm"
 #import "tiles-screen-shift.asm"
 #import "tiles-color-ram-shift.asm"
 #import "common/lib/math.asm"
 #import "common/lib/mem.asm"
 
-#importonce 
-.filenamespace c64lib 
+#importonce
+.filenamespace c64lib
 
 /*
  * Config record for 2x2 tile scrollable playfield.
@@ -46,7 +46,7 @@
   z3,
   // ---- precalculated buffers
   // 16 bit address of lo part of map rows
-  mapOffsetsLo,  
+  mapOffsetsLo,
   // 16 bit address of hi part of map rows
   mapOffsetsHi
 }
@@ -68,7 +68,7 @@
   _t2_initMapOffsets(cfg)
 }
 
-/* 
+/*
  * initialize mapOffsetsLo and mapOffsetsHi buffers
  *
  * Mod: A, X, Y
@@ -104,12 +104,196 @@
  */
 .macro _t2_decodeTile(cfg, lineNo) {
     ldy cfg.y + 1                   // "y" contains a y-offset of the viewport
-    lda cfg.mapOffsetsLo + lineNo,y // 
+    lda cfg.mapOffsetsLo + lineNo,y //
     sta mapPtr
     lda cfg.mapOffsetsHi + lineNo,y
     sta mapPtr + 1
     lda mapPtr:$FFFF,x
 }
+
+/*
+ * Returns tile number denoted by current viewport position and given relative coordinates.
+ *
+ * In:  X - relative X coordinates rounded to the whole character
+ *      Y - relative Y coordinates rounded to the whole character
+ * Out: A - tile number (tile code)
+ * Mod: A,X,Y
+ */
+.macro decodeTile(cfg) {
+  tya
+  clc
+  adc cfg.y + 1
+  tay
+  txa
+  clc
+  adc cfg.x + 1
+  tax
+  lda cfg.mapOffsetsLo,y
+  sta mapPtr
+  lda cfg.mapOffsetsHi,y
+  sta mapPtr + 1
+  lda mapPtr:$FFFF,x
+}
+
+/*
+ * Draws a tile on the screen, but only makes sense when [x,y] = [0,0].
+ *
+ * In:  X - relative X offset of the tile
+ * In:  Y - relative Y offset of the tile
+ * Mod: A
+ */
+.macro drawTile(cfg, screen, colorRam) {
+  // save regs
+  txa
+  pha
+  tya
+  pha
+  // calculate screen position
+  sty storeY
+  tya
+  asl
+  tay
+
+  lda rowOffsetsLo + cfg.startRow,y
+  sta lt
+  lda colorOffsetsLo + cfg.startRow,y
+  sta clt
+
+  lda rowOffsetsHi + cfg.startRow,y
+  sta lt + 1
+  lda colorOffsetsHi + cfg.startRow,y
+  sta clt + 1
+
+  lda rowOffsetsLo + cfg.startRow,y
+  sta rt
+  lda colorOffsetsLo + cfg.startRow,y
+  sta crt
+
+  lda rowOffsetsHi + cfg.startRow,y
+  sta rt + 1
+  lda colorOffsetsHi + cfg.startRow,y
+  sta crt + 1
+
+  iny
+
+  lda rowOffsetsLo + cfg.startRow,y
+  sta lb
+  lda colorOffsetsLo + cfg.startRow,y
+  sta clb
+
+  lda rowOffsetsHi + cfg.startRow,y
+  sta lb + 1
+  lda colorOffsetsHi + cfg.startRow,y
+  sta clb + 1
+
+  lda rowOffsetsLo + cfg.startRow,y
+  sta rb
+  lda colorOffsetsLo + cfg.startRow,y
+  sta crb
+
+  lda rowOffsetsHi + cfg.startRow,y
+  sta rb + 1
+  lda colorOffsetsHi + cfg.startRow,y
+  sta crb + 1
+
+  ldy storeY
+
+  // calculate tile number
+  lda cfg.mapOffsetsLo,y
+  sta mapPtr
+  lda cfg.mapOffsetsHi,y
+  sta mapPtr + 1
+  ldy mapPtr:$ffff,x // Y <- tile number
+
+  txa
+  asl
+  tax
+
+  // fill screen data
+  lda cfg.tileDefinition,y
+  sta lt: $ffff,x
+  lda cfg.tileDefinition + 512,y
+  sta lb: $ffff,x
+  // fill color RAM
+  lda cfg.tileColors,y
+  sta clt: $ffff,x
+  sta clb: $ffff,x
+
+  inx
+
+  // fill screen data
+  lda cfg.tileDefinition + 256,y
+  sta rt: $ffff,x
+  lda cfg.tileDefinition + 768,y
+  sta rb: $ffff,x
+  // fill color RAM
+  lda cfg.tileColors,y
+  sta crt: $ffff,x
+  sta crb: $ffff,x
+
+  // restore regs
+  pla
+  tay
+  pla
+  tax
+  rts
+  // --- data ---
+  rowOffsetsLo: .fill 25, <(screen + i*40)
+  rowOffsetsHi: .fill 25, >(screen + i*40)
+  colorOffsetsLo: .fill 25, <(colorRam + i*40)
+  colorOffsetsHi: .fill 25, >(colorRam + i*40)
+  storeY: .byte $00
+}
+
+/**
+ * Shifts screen data to the left by one character.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ * - page - which page to use as src (0 or 1).
+ *
+ * Mod: A, X
+ */
+.macro shiftScreenLeft(cfg, page) {
+  .if (page == 0) {
+    _t2_shiftScreenLeft(cfg, 0, 1)
+  } else {
+    _t2_shiftScreenLeft(cfg, 1, 0)
+  }
+}
+
+/**
+ * Shifts color RAM to the left by one character.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ *
+ * Mod: A, X, Y
+ */
+.macro shiftColorRamLeft(cfg) { _t2_shiftColorRamLeft(cfg, 2) }
+
+/*
+ * Decode rightmost column of the playfield into given screen page.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ * - page - which page to use (0 or 1).
+ *
+ * Mod: A, X, Y
+ */
+.macro decodeScreenRight(cfg, page) { _t2_decodeScreenRight(cfg, page) }
+
+/*
+ * Decode rightmost column of the color data.
+ *
+ * Parameters:
+ * - cfg - tileset configuration.
+ *
+ * Mod: A, X, Y
+ */
+.macro decodeColorRight(cfg) { _t2_decodeColorRight(cfg, COLOR_RAM) }
+
+// ----- Private stuff. -----
 
 /*
  * Decode rightmost column of the playfield into given screen page.
@@ -120,8 +304,6 @@
 
   .var pageAddress = _t2_screenAddress(cfg, page)
 
-
-  cld
   clc
   lda cfg.x
   and #%10000000
@@ -141,7 +323,7 @@
                                       // Y position is odd
     _t2_decodeTile(cfg, 0)
     tay                               // X contains tile number
-   
+
     lda cfg.x
     and #%10000000
     bne xOdd
@@ -151,12 +333,12 @@
     xOdd:
       lda cfg.tileDefinition + 768,y
       sta pageAddress + 39
-    done: 
+    done:
   yEven:
   .for (var y = cfg.startRow; y <= cfg.endRow; y = y+2) {
     _t2_decodeTile(cfg, (y - cfg.startRow)/2)
     tay
-    
+
     lda cfg.x
     and #%10000000
     beq xEven
@@ -174,7 +356,7 @@
         lda cfg.tileDefinition + 768,y
         sta pageAddress + ((y + 1)*40) + 39
       }
-    done: 
+    done:
   }
 }
 
@@ -185,11 +367,18 @@
  */
 .macro _t2_decodeColorRight(cfg, colorPage) {
 
-  cld
-  lda cfg.x + 1   
   clc
-  adc #19
-  tax
+  lda cfg.x
+  and #%10000000
+  bne nextTile
+    lda cfg.x + 1                       // load (tile) X position
+    adc #19                             // we will draw last column
+    jmp endNextTile
+  nextTile:
+    lda cfg.x + 1
+    adc #20
+  endNextTile:
+  tax                                 // X contains a x coodinate of the map tile
 
   lda cfg.y
   and #%10000000

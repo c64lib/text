@@ -11,13 +11,13 @@
  */
 .namespace c64lib {
   outHex: {
-  
+
   invokeStackBegin(returnPtr)
   pullParamW(storeHex)   // IN: screen location ptr
   pullParamW(loadByte)   // IN: byte ptr
-    
+
   lda loadByte:$ffff // load byte to process
-    
+
   ldx #$00
   sta ldx1 + 1 // preserve for second digit
   lsr          // shift right 4 bits
@@ -43,7 +43,7 @@
     inx
     rts
   end:
-              
+
   invokeStackEnd(returnPtr)
   rts
   // local variables

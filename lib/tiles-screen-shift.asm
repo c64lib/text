@@ -31,7 +31,7 @@
     }
     inx                               //(2)/1
     cpx #39                           //(2)/2
-  fbne(loop) 
+  fbne(loop)
 }
 
 .macro _t2_shiftScreenLeftTop(cfg, page) {

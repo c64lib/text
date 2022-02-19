@@ -5,141 +5,141 @@
 sfspec: init_spec()
 
   describe("_shiftInterleavedTopLeft odd")
-  
+
     it("shifts mem top left by 1 from [0,0]"); {
-    
+
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #0
       sta x
       sta y
-  
+
       jsr shiftInterleavedTopLeft
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenTopLeft0
     }
 
     it("shifts mem top left by 1 from [1,1]"); {
-    
+
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #1
       sta x
       sta y
-  
+
       jsr shiftInterleavedTopLeft
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenTopLeft1
     }
 
   describe("_shiftInterleavedTopRight")
-  
+
     it("shifts mem top right by 1 from [0,0]"); {
-    
+
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #0
       sta x
       sta y
-  
+
       jsr shiftInterleavedTopRight
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenTopRight0
     }
 
 
     it("shifts mem top right by 1 from [1,1]"); {
-    
+
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #1
       sta x
       sta y
-  
+
       jsr shiftInterleavedTopRight
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenTopRight1
     }
-    
+
 
   describe("_shiftInterleavedBottomLeft")
-  
+
     it("shifts mem bottom left by 1 from [0,0]"); {
-    
+
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #0
       sta x
       sta y
-  
+
       jsr shiftInterleavedBottomLeft
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomLeft0
     }
 
     it("shifts mem bottom left by 1 from [1,1]"); {
-    
+
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #1
       sta x
       sta y
-  
+
       jsr shiftInterleavedBottomLeft
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomLeft1
     }
 
 
   describe("_shiftInterleavedBottomRight")
-  
+
     it("shifts mem bottm right by 1 from [0,0]"); {
-    
+
       c64lib_pushParamW(initialScreenData0)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #0
       sta x
       sta y
-  
+
       jsr shiftInterleavedBottomRight
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomRight0
     }
 
     it("shifts mem bottm right by 1 from [1,1]"); {
-    
+
       c64lib_pushParamW(initialScreenData1)
       c64lib_pushParamW(testScreenData)
       c64lib_pushParamW(1000)
       jsr copyLargeMemForward
-      
+
       lda #1
       sta x
       sta y
-  
+
       jsr shiftInterleavedBottomRight
-      
+
       assert_bytes_equal 1000: testScreenData: expectedScreenBottomRight1
     }
 
@@ -160,60 +160,60 @@ y: .word 0
 
 initialScreenData0: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "1234567890123456789012345678901234567890"
 }
 
 initialScreenData1: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "1234567890123456789012345678901234567890"
 }
 
 testScreenData: {
@@ -222,234 +222,234 @@ testScreenData: {
 
 expectedScreenTopLeft0: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenTopLeft1: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenTopRight0: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenTopRight1: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenBottomLeft0: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx" 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..." 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xxx"
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..."
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenBottomLeft1: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x." 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.x"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..x."
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenBottomRight0: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx." 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "...xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text "xxx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text ".xx..xx..xx..xx..xx..xx..xx..xx..xx..xx."
+  .text "1234567890123456789012345678901234567890"
 }
 
 expectedScreenBottomRight1: {
   //    "0000011111222223333344444555556666677777"
-  .text "1234567890123456789012345678901234567890" 
-  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x" 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.." 
-  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx" 
-  .text "1234567890123456789012345678901234567890" 
+  .text "1234567890123456789012345678901234567890"
+  .text "x..xx..xx..xx..xx..xx..xx..xx..xx..xx..x"
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "x.xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "xx..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text ".x..xx..xx..xx..xx..xx..xx..xx..xx..xx.."
+  .text "..xx..xx..xx..xx..xx..xx..xx..xx..xx..xx"
+  .text "1234567890123456789012345678901234567890"
 }
 
 codeBegin:
@@ -459,7 +459,7 @@ shiftInterleavedBottomLeft:   .namespace c64lib { _t2_shiftInterleavedBottomLeft
 shiftInterleavedBottomRight:  .namespace c64lib { _t2_shiftInterleavedBottomRight(@cfg, testScreenData, 2); rts }
 codeEnd:
 
-copyLargeMemForward:   
+copyLargeMemForward:
                         #import "common/lib/sub/copy-large-mem-forward.asm"
 
 .print "Total size of tested subroutines = " + (codeEnd - codeBegin) + " bytes"
