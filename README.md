@@ -12,6 +12,8 @@ https://c64lib.github.io/docu/libs/text
 
 ### Changes in 0.3.0
 
+* New macro: `outHexNibbleOfs`
+* New subroutine: `outHexNibble`
 * Screen shift to the left (both screen mem and color RAM) are well tested with T-Rex 64 release.
 * New macro: `tiles-2x2.asm/decodeTile`.
 * New macro: `tiles-2x2.asm/drawTile`.
