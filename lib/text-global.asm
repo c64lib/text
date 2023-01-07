@@ -27,3 +27,4 @@
 .filenamespace c64lib
 
 .macro @c64lib_incText(text, count) { incText(text, count) }
+.macro @c64lib_copyScreenBlock(width, height, screenTarget, colorSource, colorTarget) { copyScreenBlock(width, height, screenTarget, colorSource, colorTarget)}
