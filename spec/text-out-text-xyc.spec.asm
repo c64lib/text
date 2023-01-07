@@ -22,11 +22,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#import "text.asm"
-#importonce
-.filenamespace c64lib
+#import "64spec/lib/64spec.asm"
+#import "common/lib/invoke-global.asm"
+#import "../lib/text-global.asm"
 
-.macro @c64lib_incText(text, count) { incText(text, count) }
-.macro @c64lib_copyScreenBlock(width, height, screenTarget, colorSource, colorTarget) { copyScreenBlock(width, height, screenTarget, colorSource, colorTarget)}
-.macro @c64lib_outTextXYC(screenAddress, colorRamAddress) { outTextXYC(screenAddress, colorRamAddress) }
-.macro @c64lib_outNumberXYC(screenAddress, colorRamAddress) { outNumberXYC(screenAddress, colorRamAddress) }
+sfspec: init_spec()
+
+    describe("outTextXYC")
+
+    it("prints text and color under (4,3)"); {
+        // when
+        c64lib_pushParamW(testData)
+        ldx #4
+        ldy #3
+        lda #LIGHT_BLUE
+        jsr outTextXYC
+        // then
+        assert_bytes_equal 1000: testScreenData: expectedScreenData0
+        assert_bytes_equal 1000: testColorRAM: expectedColorRam0
+    }
+
+finish_spec()
+
+* = * "Data"
+
+testData: .text "bez wegla nie ma a8i"; .byte $ff
+testScreenData: .fill 1000, '.'
+testColorRAM: .fill 1000, '.'
+
+expectedScreenData0:
+    .fill 40*3, '.'
+    .text "...."; .text "bez wegla nie ma a8i"; .text "................"
+    .fill 40*21, '.'
+
+expectedColorRam0:
+    .fill 40*3, '.'
+    .text "...."; .fill 20, LIGHT_BLUE; .text "................"
+    .fill 40*21, '.'
+
+outTextXYC: c64lib_outTextXYC(testScreenData, testColorRAM)

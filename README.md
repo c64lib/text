@@ -10,6 +10,12 @@ https://c64lib.github.io/docu/libs/text
 
 ## Change log
 
+### Changes in 0.4.0
+
+* New macro: `text.asm\copyScreenBlock`.
+* New macro: `text.asm\outTextXYC`.
+* New macro: `text.asm\outNumberXYC`.
+
 ### Changes in 0.3.0
 
 * New macro: `outHexNibbleOfs`
