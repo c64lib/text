@@ -99,3 +99,58 @@ nextLine:
     bne nextLine
     rts
 }
+
+/*
+ * Display text pointed by text pointer at screen (memory) location pointed by screen location pointer.
+ * Text must be ended with $FF and shall not be longer than 256 characters.
+ *
+ * Stack parameters (order of pushing)
+ * - text pointer LO
+ * - text pointer HI
+ *
+ * Register parameters
+ * - A color code
+ * - X x pos
+ * - Y y pos
+ *
+ * Macro parameters:
+ * - colorRamAddress
+ */
+.macro outTextXYC(screenAddress, colorRamAddress) {
+    // preserve X,Y,C
+    stx xPos
+    sty yPos
+    sta col
+    // get params from stack
+    invokeStackBegin(returnPtr)
+    pullParamW(loadText)
+    // translate X,Y to memory locations
+    ldy yPos
+    mulByRows:
+      add16(40, storeText)
+      add16(40, storeColor)
+      dey
+    bne mulByRows
+    add16 xPos:storeText
+    add16 xPos:storeColor
+    // out text and color
+    ldx #$00
+    loop:
+        lda loadText:$ffff, x
+        cmp #$ff
+        beq end
+        sta storeText:screenAddress, x
+        lda col
+        sta storeColor:colorRamAddress, x
+        inx
+    bne loop
+    end:
+    // restore stack
+    invokeStackEnd(returnPtr)
+    rts
+    // local variables
+    returnPtr: .word 0
+    xPos: .word 0
+    yPos: .byte 0
+    col: .byte 0
+}
