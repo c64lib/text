@@ -23,6 +23,8 @@
  * SOFTWARE.
  */
 #import "common/lib/invoke.asm"
+#import "common/lib/mem.asm"
+#import "common/lib/math.asm"
 #import "chipset/lib/vic2.asm"
 #importonce
 .filenamespace c64lib
@@ -52,4 +54,48 @@
   // local variables
   returnPtr:  .word 0
   hexChars:   incText("0123456789abcdef", charsetOffset)
+}
+
+/*
+ * Copies a block (rectangle) from given location denoted in A/X registers into target location.
+ * This macro hosts a subroutine and can be called several times to cover several different locations and block sizes.
+ *
+ * Macro parameters:
+ * - width: virtual width of the block, ranges 1-40
+ * - height: virtual height of the block, rangles 1-25
+ * - screenTarget: a 1000 bytes screen memory. Note, if block is smaller than 25 rows and should not start from the top and left, you should add corresponding number of bytes to this address: x+40*y
+ * - colorSource: a coloring table, denoting color per character
+ * - colorTarget: a color RAM target, it is configurable because you need to add here the same adjustments as for screenTarget: x+40*y
+ *
+ * Subroutine parameters:
+ * - - IN: A - source address lsb, X - source address hsb
+ * DESTROYS: A,X,Y
+ */
+.macro copyScreenBlock(width, height, screenTarget, colorSource, colorTarget) {
+    sta sourceAddress
+    stx sourceAddress + 1
+    set16(screenTarget, destAddress)
+    set16(colorTarget, colorDestAddress)
+    ldy #height
+nextLine:
+    ldx #width
+    nextChar:
+        dex
+        tya
+        pha
+        lda sourceAddress:$FFFF,x
+        tay
+        sta destAddress:$FFFF,x
+        lda colorSource,y
+        sta colorDestAddress:$FFFF,x
+        pla
+        tay
+        cpx #0
+    bne nextChar
+    add16(width, sourceAddress)
+    add16(40, destAddress)
+    add16(40, colorDestAddress)
+    dey
+    bne nextLine
+    rts
 }

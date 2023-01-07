@@ -59,6 +59,7 @@ sfspec: init_spec()
   }
 
 finish_spec()
+.print "test data address = " + testScreenData
 
 * = * "Data"
 .namespace c64lib {
