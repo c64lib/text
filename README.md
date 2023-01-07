@@ -14,6 +14,7 @@ https://c64lib.github.io/docu/libs/text
 
 * New macro: `text.asm\copyScreenBlock`.
 * New macro: `text.asm\outTextXYC`.
+* New macro: `text.asm\outNumberXYC`.
 
 ### Changes in 0.3.0
 

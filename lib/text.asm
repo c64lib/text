@@ -114,6 +114,7 @@ nextLine:
  * - Y y pos
  *
  * Macro parameters:
+ * - screenAddress
  * - colorRamAddress
  */
 .macro outTextXYC(screenAddress, colorRamAddress) {
@@ -150,6 +151,82 @@ nextLine:
     rts
     // local variables
     returnPtr: .word 0
+    xPos: .word 0
+    yPos: .byte 0
+    col: .byte 0
+}
+
+/*
+ * Display text pointed by text pointer at screen (memory) location pointed by screen location pointer.
+ * Text must be ended with $FF and shall not be longer than 256 characters.
+ * Number will be displayed as hexagonal if unpacked, or decimal when BCD packed.
+ *
+ * Stack parameters (order of pushing)
+ * - byte pointer LO
+ * - byte pointer HI
+ *
+ * Register parameters
+ * - A color code
+ * - X x pos
+ * - Y y pos
+ *
+ * Macro parameters:
+ * - screenAddress
+ * - colorRamAddress
+ */
+.macro outNumberXYC(screenAddress, colorRamAddress) {
+    // preserve X,Y,C
+    stx xPos
+    sty yPos
+    sta col
+    // get params from stack
+    invokeStackBegin(returnPtr)
+    pullParamW(loadByte)   // IN: byte ptr
+    // translate X,Y to memory locations
+    ldy yPos
+    mulByRows:
+      add16(40, storeHex)
+      add16(40, storeColor)
+      dey
+    bne mulByRows
+    add16 xPos:storeHex
+    add16 xPos:storeColor
+
+    lda loadByte:$ffff // load byte to process
+
+    ldx #$00
+    sta ldx1 + 1 // preserve for second digit
+    lsr          // shift right 4 bits
+    lsr
+    lsr
+    lsr
+    sta ldx0 + 1 // preserve for first digit
+    lda ldx1 + 1 // load second digit
+    and #%1111   // clear first digit
+    sta ldx1 + 1 // store it again
+    jsr ldx0     // display first digit
+    jsr ldx1     // display second digit
+    jmp end
+    ldx0:
+      ldy #$00
+    jmp out
+    ldx1:
+      ldy #$00
+    jmp out
+    out:
+      lda hexChars, y
+      sta storeHex:screenAddress, x
+      lda col
+      sta storeColor:colorRamAddress, x
+      inx
+      rts
+    end:
+
+    invokeStackEnd(returnPtr)
+    rts
+    // local variables
+    returnPtr:  .word 0
+    hexChars:   .text "0123456789abcdef"
     xPos: .word 0
     yPos: .byte 0
     col: .byte 0
