@@ -10,6 +10,8 @@ https://c64lib.github.io/docu/libs/text
 
 ## Change log
 
+### Changes in 0.5.0
+
 ### Changes in 0.4.0
 
 * New macro: `text.asm\copyScreenBlock`.
