@@ -124,6 +124,14 @@ nextLine:
     sta col
     lda #0
     sta xPos + 1
+    lda #<screenAddress
+    sta storeText
+    lda #>screenAddress
+    sta storeText + 1
+    lda #<colorRamAddress
+    sta storeColor
+    lda #>colorRamAddress
+    sta storeColor + 1
     // get params from stack
     invokeStackBegin(returnPtr)
     pullParamW(loadText)
