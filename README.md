@@ -10,6 +10,10 @@ https://c64lib.github.io/docu/libs/text
 
 ## Change log
 
+### Changes in 0.6.0
+
+* Fix in `outTextXYC` macro.
+
 ### Changes in 0.5.0
 
 ### Changes in 0.4.0

@@ -122,6 +122,8 @@ nextLine:
     stx xPos
     sty yPos
     sta col
+    lda #0
+    sta xPos + 1
     // get params from stack
     invokeStackBegin(returnPtr)
     pullParamW(loadText)
