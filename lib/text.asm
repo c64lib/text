@@ -189,6 +189,16 @@ nextLine:
     stx xPos
     sty yPos
     sta col
+    lda #0
+    sta xPos + 1
+    lda #<screenAddress
+    sta storeHex
+    lda #>screenAddress
+    sta storeHex + 1
+    lda #<colorRamAddress
+    sta storeColor
+    lda #>colorRamAddress
+    sta storeColor + 1
     // get params from stack
     invokeStackBegin(returnPtr)
     pullParamW(loadByte)   // IN: byte ptr

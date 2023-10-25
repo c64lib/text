@@ -13,6 +13,7 @@ https://c64lib.github.io/docu/libs/text
 ### Changes in 0.6.0
 
 * Fix in `outTextXYC` macro.
+* Fix in `outNumbertXYC` macro.
 
 ### Changes in 0.5.0
 
